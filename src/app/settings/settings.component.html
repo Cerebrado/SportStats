@@ -1,0 +1,75 @@
+<h3>Settings</h3>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title float-left"> 
+            <span>Players</span>
+          </h5>
+          <button
+          class="btn btn-outline-primary ml-2 btn-sm"
+          type="button"
+          (click)="btnAddPlayerClick()"
+        >
+          <span class="material-icons">add</span>
+        </button>
+          <table class="table table-sm">
+            <tr
+              style="cursor: pointer"
+              *ngFor="let p of Settings.PlayersList; index as i"
+            >
+              <td width="90%">{{ p.Nick }} - {{ p.Name }}</td>
+              <td>
+                <a href="#">
+                  <span class="material-icons pull-right">close</span>
+                </a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title float-left">
+            <span>Events</span>
+          </h5>
+          <button
+          class="btn btn-outline-primary ml-2 btn-sm"
+          type="button"
+          (click)="btnAddEventClick()"
+        >
+          <span class="material-icons">add</span>
+        </button>
+          <table class="table table-sm">
+            <tr
+              style="cursor: pointer"
+              *ngFor="let p of Settings.PlayEventsList; index as i"
+            >
+              <td width="90%">{{ p.Short }} - {{ p.Long }}</td>
+              <td>
+                <a href="#">
+                  <span class="material-icons pull-right">close</span>
+                </a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3 justify-content-end">
+    <div class="col-3">
+      <button class="btn btn-secondary" (click)="btnCancelClick()">
+        Cancelar
+      </button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-primary" (click)="btnConfirmClick()">
+        Guardar
+      </button>
+    </div>
+  </div>
+</div>
