@@ -40,13 +40,15 @@ export class NewMatchComponent {
       }
     }
   }
+  
   RemovePlayer(i: number) {
-    this._selectedPlayers[i] = null;
+    this._selectedPlayers[i].Nick = '';
+    this._selectedPlayers[i].Name = '';
   }
 
   btnConfirmNewMatchClick() {
     for (let i = 0; i < 4; i++) {
-      if (this._selectedPlayers[i] === null) {
+      if (this._selectedPlayers[i].Nick === '') {
         alert('There must be 4 people to play. Get some friends');
         return;
       }

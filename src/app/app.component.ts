@@ -49,9 +49,9 @@ export class AppComponent {
     this.menuOption = 0;
   }
 
-  public newGameCreated(match:Match) {
+  public newGameCreated(match:Match|Event) {
     this.Model.History.push(this.Model.CurrentMatch);
-    this.Model.CurrentMatch = match;
+    this.Model.CurrentMatch = match as Match;
     this.SaveModel();
     this.menuOption = 0;
   }

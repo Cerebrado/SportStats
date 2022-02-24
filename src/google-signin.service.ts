@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class GoogleSigninService {
-  private auth2: gapi.auth2.GoogleAuth<gapi.auth2.GoogleUser>(1);
-  private subject = new ReplaySubject();
+  private auth2: gapi.auth2.GoogleAuth;
+  private subject:ReplaySubject<gapi.auth2.GoogleUser|null> = new ReplaySubject<gapi.auth2.GoogleUser|null>(1);
   constructor() {
     gapi.load('auth2', () => {
       this.auth2 = gapi.auth2.init({
@@ -14,24 +16,24 @@ export class GoogleSigninService {
     });
   }
 
-  public SignIn() {
+  public signIn() {
     this.auth2
       .signIn()
       .then((user) => {
-        this.subject.next(user);
+        this.subject?.next(user);
       })
       .catch(() => {
-        this.subject.next(null);
+        this.subject?.next(null);
       });
   }
 
-  public SignOut() {
+  public signOut() {
     this.auth2.signOut().then(() => {
-      this.subject.next(null);
+      this.subject?.next(null);
     });
   }
 
-  public observable(): Observable<gapi.auth2.GoogleUser> {
-    return this.subject.asObservable();
+  public observable(): Observable<gapi.auth2.GoogleUser|null> {
+      return this.subject.asObservable();
   }
 }
