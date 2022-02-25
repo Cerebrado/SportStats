@@ -1,4 +1,4 @@
-<div *ngIf="menuOption == 0">
+<div *ngIf="showNewMatchButton">
   <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Stats</a>
     <form class="form-inline">
@@ -6,6 +6,7 @@
         class="btn btn-outline-success"
         type="button"
         (click)="startNewGame()"
+        *ngIf="User != null"
       >
         <span class="material-icons">sports_tennis</span>
       </button>
@@ -13,6 +14,7 @@
         class="btn btn-outline-success ml-3"
         type="button"
         (click)="statistics()"
+        *ngIf="User != null"
       >
         <span class="material-icons">leaderboard</span>
       </button>
@@ -20,12 +22,30 @@
         class="btn btn-outline-success ml-3"
         type="button"
         (click)="settings()"
+        *ngIf="User != null"
       >
         <span class="material-icons">settings</span>
       </button>
+      <button
+        class="btn btn-outline-success ml-3"
+        type="button"
+        (click)="SignIn()"
+        *ngIf="User == null"
+      >
+        <span class="material-icons">person</span>
+      </button>
+      <span class="text-success  ml-3" *ngIf="User != null">{{ User.getBasicProfile().getEmail()}} </span>
+      <button
+        class="btn btn-outline-success ml-3"
+        type="button"
+        (click)="SignOut()"
+        *ngIf="User != null"
+      >
+        <span class="material-icons">person_off</span>
+      </button>
     </form>
   </nav>
-  <match></match>
+  <match [Match]="Model.CurrentMatch"></match>
 </div>
 <new-match
   *ngIf="menuOption == 1"
@@ -36,7 +56,6 @@
 <statistics *ngIf="menuOption == 2"></statistics>
 <settings
   *ngIf="menuOption == 3"
-  [Settings]="Model.Settings"
   (onBtnCancelClick)="btnCancelClick()"
   (onBtnConfirmClick)="btnSettingsConfirmClick($event)"
 ></settings>

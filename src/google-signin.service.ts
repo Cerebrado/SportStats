@@ -20,9 +20,11 @@ export class GoogleSigninService {
     this.auth2
       .signIn()
       .then((user) => {
+        console.log("signed in")
         this.subject?.next(user);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error)
         this.subject?.next(null);
       });
   }

@@ -1,5 +1,5 @@
 <h3>Settings</h3>
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="!showNewPlayerForm && !showNewEventForm">
   <div class="row">
     <div class="col-6">
       <div class="card">
@@ -10,14 +10,14 @@
           <button
           class="btn btn-outline-primary ml-2 btn-sm"
           type="button"
-          (click)="btnAddPlayerClick()"
+          (click)="btnShowNewPlayerFormClick()"
         >
           <span class="material-icons">add</span>
         </button>
           <table class="table table-sm">
             <tr
               style="cursor: pointer"
-              *ngFor="let p of Settings.PlayersList; index as i"
+              *ngFor="let p of PlayersList; index as i"
             >
               <td width="90%">{{ p.Nick }} - {{ p.Name }}</td>
               <td>
@@ -39,14 +39,14 @@
           <button
           class="btn btn-outline-primary ml-2 btn-sm"
           type="button"
-          (click)="btnAddEventClick()"
+          (click)="btnShowNewEventFormClick()"
         >
           <span class="material-icons">add</span>
         </button>
           <table class="table table-sm">
             <tr
               style="cursor: pointer"
-              *ngFor="let p of Settings.PlayEventsList; index as i"
+              *ngFor="let p of PlayEventsList; index as i"
             >
               <td width="90%">{{ p.Short }} - {{ p.Long }}</td>
               <td>

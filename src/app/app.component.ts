@@ -1,4 +1,5 @@
-import { Component, Input, Output, VERSION } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, Output, VERSION } from '@angular/core';
+import { GoogleSigninService } from 'src/google-signin.service';
 import { Match, Settings,  Model } from './Model';
 
 @Component({
@@ -7,14 +8,49 @@ import { Match, Settings,  Model } from './Model';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  Model: Model;
-
+  Model: Model | null = new Model();
+  User: gapi.auth2.GoogleUser|null;
+  constructor(private signInService: GoogleSigninService, private ref: ChangeDetectorRef) {
+  
+  
+}
   ngOnInit() {
-    this.Model = this.LoadModel();
+    this.signInService.observable().subscribe((user) => {
+      this.User = user;
+      this.ref.detectChanges();
+    })
+
+    this.LoadModel();
+  }
+
+  SignIn(){
+    this.signInService.signIn();
+  }
+
+  SignOut(){
+    this.signInService.signOut();
+  }
+
+  SaveModel() {
+    localStorage.setItem('3TStats', JSON.stringify(this.Model));
+  }
+
+  LoadModel() {
+    var storageData = localStorage.getItem('3TStats');
+    if (storageData) {
+      this.Model = JSON.parse(storageData);
+    }
   }
 
   menuOption: number = 0;
-
+  showNewMatchButton():boolean{
+    if(!this.Model)
+      return false;
+    
+    return this.menuOption == 0 
+    && this.Model.Settings.PlayersList.length >= 4 && 
+    this.Model.Settings.PlayEventsList.length > 0
+  }
   public startNewGame() {
     this.menuOption = 1;
   }
@@ -27,29 +63,18 @@ export class AppComponent {
 
   public StatEntry: string = '';
 
-  SaveModel() {
-    localStorage.setItem('3TStats', JSON.stringify(this.Model));
-  }
-
-  LoadModel(): Model {
-    let model: Model;
-    var storageData = localStorage.getItem('3TStats');
-    if (storageData === null) {
-      model = new Model();
-      this.SaveModel();
-    } else {
-      model = JSON.parse(storageData);
-    }
-    return model;
-  }
 
   public btnSettingsConfirmClick(settings:Settings) {
+    if(this.Model == null)
+      return;
     this.Model.Settings = settings;
     this.SaveModel();
     this.menuOption = 0;
   }
 
-  public newGameCreated(match:Match|Event) {
+  public newGameCreated(match:Match) {
+    if(this.Model == null)
+      return; 
     this.Model.History.push(this.Model.CurrentMatch);
     this.Model.CurrentMatch = match as Match;
     this.SaveModel();

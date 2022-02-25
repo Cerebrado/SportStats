@@ -1,17 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Settings } from '../Model';
+import { Player, PlayEvent, Settings } from '../Model';
 
 @Component({
   selector: 'settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css'],
 })
 export class SettingsComponent implements OnInit {
-  @Input() Settings: Settings;
   @Output() onBtnCancelClick: EventEmitter<null> = new EventEmitter<null>();
   @Output() onBtnConfirmClick: EventEmitter<Settings> =
     new EventEmitter<Settings>();
-  constructor() {}
+  
+    PlayEventsList: PlayEvent[];
+    PlayersList: Player[];
+    constructor() {}
 
   ngOnInit() {
     // this.paddleStats = JSON.parse(localStorage.getItem('3TStats'));
@@ -26,13 +27,35 @@ export class SettingsComponent implements OnInit {
     // //   new Player('XXX', 'Juan N'),
     // // ];
   }
-  btnAddPlayerClick() {}
-  btnAddEventClick (){}
+
+  showNewPlayerForm: boolean = false;
+  showNewEventForm: boolean = false;
+  
+  btnShowNewPlayerFormClick() {
+    this.showNewPlayerForm = true;
+  }
+  btnAddNewPlayerClick(){
+
+  }
+  btnCancelNewPlayerClick(){
+    this.showNewPlayerForm = false;
+  }
+
+  btnShowNewEventFormClick() {
+    this.showNewEventForm = true;
+  }
+    
+  btnAddNewEventClick (){}
+  btnCancelNewEventClick (){
+    this.showNewEventForm = true;
+  }
+
   btnCancelClick() {
     this.onBtnCancelClick.emit(null);
   }
 
   btnConfirmClick() {
-    this.onBtnConfirmClick.emit(this.Settings);
+    let settings = new Settings();    
+    this.onBtnConfirmClick.emit(settings);
   }
 }

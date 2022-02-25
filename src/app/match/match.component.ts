@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Match } from '../Model';
 
 @Component({
@@ -10,6 +10,7 @@ export class MatchComponent implements OnInit {
 
   ngOnInit() {}
 
-  Match: Match;
-  StatEntry: string;
+
+  @Input() Match: Match;
+  StatEntry: string = '';
 }

@@ -1,13 +1,7 @@
 export class Model {
   History: Match[] = new Array<Match>();
-  CurrentMatch: Match = new Match();
-  Settings: Settings = new Settings();
-  User: User = new User();
-}
-
-export class User {
-  email: string;
-  isLoggedIn: boolean;
+  CurrentMatch: Match | null ;
+  Settings: Settings | null;
 }
 
 export class Settings {
@@ -42,39 +36,22 @@ export class Player {
 }
 
 export class Team {
-  public Players: Player[];
-  public SetScore: number[];
-  public GameCounting: number;
-  public GameScoreDisplay: string;
-  constructor() {
-    this.Players = new Array<Player>();
-    this.SetScore = new Array<number>();
-  }
+  public Players: Player[] = new Array<Player>();
+  public SetScore: number[] = new Array<number>();
+  public GameCounting: number = 0;
+  public GameScoreDisplay: string = '';
 }
 
 export class Match {
-  public Teams: Team[];
-  public Finalized: boolean;
-  public SetIndex: number;
+  public Teams: Team[] = [new Team(), new Team()]; 
+  public Finalized: boolean = false;
+  public SetIndex: number = 0;
   public ServiceIndex: number = 0;
-  public Name: string;
-  public PlayEventsList: PlayEvent[];
-
-  private _date: Date;
-  get Date(): Date {
-    return this._date;
-  }
-  set Date(value: Date) {
-    this._date = value;
-    this.Name = this.getDateAsString(value);
-  }
+  public Name: string = '';
+  public PlayEventsList: PlayEvent[] = new Array<PlayEvent>();
 
   constructor() {
-    this._date = new Date();
-
-    this.Teams = [new Team(), new Team()];
-    this.PlayEventsList = new Array<PlayEvent>();
-    this.SetIndex = 0;
+    this. Name = this.getDateAsString(new Date()); 
   }
 
   pad2(n: number) {
