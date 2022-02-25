@@ -1,0 +1,18 @@
+<button
+class="btn btn-outline-success ml-3"
+type="button"
+(click)="SignIn()"
+*ngIf="subject == null"
+>
+<span class="material-icons">person</span>
+</button>
+<span class="text-success  ml-3" *ngIf="subject != null">{{ subject.getBasicProfile().getEmail()}} </span>
+<button
+class="btn btn-outline-success ml-3"
+type="button"
+(click)="SignOut()"
+*ngIf="subject != null"
+>
+<span class="material-icons">person_off</span>
+</button>
+

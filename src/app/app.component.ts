@@ -9,15 +9,16 @@ import { Match, Settings,  Model } from './Model';
 })
 export class AppComponent {
   Model: Model | null = new Model();
+  public StatEntry: string = '';
   User: gapi.auth2.GoogleUser|null;
-  constructor(private signInService: GoogleSigninService, private ref: ChangeDetectorRef) {
+  constructor(private signInService: GoogleSigninService,  private ref: ChangeDetectorRef
+    ) {}
   
-  
-}
   ngOnInit() {
-    this.signInService.observable().subscribe((user) => {
-      this.User = user;
-      this.ref.detectChanges();
+    this.menuOption = 0;
+     this.signInService.User.subscribe((user) => {
+       this.User = user;
+       this.ref.detectChanges();
     })
 
     this.LoadModel();
@@ -42,7 +43,7 @@ export class AppComponent {
     }
   }
 
-  menuOption: number = 0;
+  menuOption: number;
   showNewMatchButton():boolean{
     if(!this.Model)
       return false;
@@ -52,16 +53,21 @@ export class AppComponent {
     this.Model.Settings.PlayEventsList.length > 0
   }
   public startNewGame() {
-    this.menuOption = 1;
+    this.setMenuOption(1);
   }
   public statistics() {
-    this.menuOption = 2;
+    this.setMenuOption(2)
   }
   public settings() {
-    this.menuOption = 3;
+    this.setMenuOption(3)
+    
   }
 
-  public StatEntry: string = '';
+setMenuOption(menuOption: number){
+  this.menuOption = menuOption;
+  this.ref.detectChanges();
+
+}
 
 
   public btnSettingsConfirmClick(settings:Settings) {
@@ -69,7 +75,7 @@ export class AppComponent {
       return;
     this.Model.Settings = settings;
     this.SaveModel();
-    this.menuOption = 0;
+    this.setMenuOption(0);
   }
 
   public newGameCreated(match:Match) {
@@ -78,10 +84,10 @@ export class AppComponent {
     this.Model.History.push(this.Model.CurrentMatch);
     this.Model.CurrentMatch = match as Match;
     this.SaveModel();
-    this.menuOption = 0;
+    this.setMenuOption(0);
   }
 
   public btnCancelClick() {
-    this.menuOption = 0;
+    this.setMenuOption(0);
   }
 }

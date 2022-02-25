@@ -8,6 +8,7 @@ import { NewMatchComponent } from './new-match/new-match.component';
 import { MatchComponent } from './match/match.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { SettingsComponent } from './settings/settings.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, CommonModule],
@@ -17,6 +18,7 @@ import { SettingsComponent } from './settings/settings.component';
     MatchComponent,
     StatisticsComponent,
     SettingsComponent,
+    LoginComponent,
   ],
   bootstrap: [AppComponent],
 })

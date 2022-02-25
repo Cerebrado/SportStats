@@ -1,4 +1,4 @@
-<div *ngIf="showNewMatchButton">
+<div>
   <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Stats</a>
     <form class="form-inline">
@@ -27,26 +27,31 @@
         <span class="material-icons">settings</span>
       </button>
       <button
-        class="btn btn-outline-success ml-3"
-        type="button"
-        (click)="SignIn()"
-        *ngIf="User == null"
+      class="btn btn-outline-success ml-3"
+      type="button"
+      (click)="SignIn()"
+      *ngIf="User == null"
       >
-        <span class="material-icons">person</span>
+      <span class="material-icons">person</span>
       </button>
       <span class="text-success  ml-3" *ngIf="User != null">{{ User.getBasicProfile().getEmail()}} </span>
       <button
-        class="btn btn-outline-success ml-3"
-        type="button"
-        (click)="SignOut()"
-        *ngIf="User != null"
+      class="btn btn-outline-success ml-3"
+      type="button"
+      (click)="SignOut()"
+      *ngIf="User != null"
       >
-        <span class="material-icons">person_off</span>
+      <span class="material-icons">person_off</span>
       </button>
     </form>
   </nav>
-  <match [Match]="Model.CurrentMatch"></match>
 </div>
+{{menuOption}}
+{{User | json }}
+<match *ngIf="menuOption == 0"
+  [Match]="Model.CurrentMatch">
+</match>
+
 <new-match
   *ngIf="menuOption == 1"
   [Settings]="Model.Settings"
