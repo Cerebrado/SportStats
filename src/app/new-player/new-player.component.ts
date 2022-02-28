@@ -1,10 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Player } from '../Model';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-new-player',
+  selector: 'new-player',
   templateUrl: './new-player.component.html',
-  styleUrls: ['./new-player.component.css'],
 })
 export class NewPlayerComponent implements OnInit {
   
@@ -14,13 +14,12 @@ export class NewPlayerComponent implements OnInit {
 
   Nick: string;
   Name: string;
-  Player: Player
-  constructor() {}
-
+  
+  constructor(private modalService: NgbModal) {}
   ngOnInit() {}
   btnSaveNewPlayerClick() {
-    this.Player = new Player(this.Nick, this.Name);
-    this.onBtnConfirmClick.emit(this.Player)
+    var player = new Player(this.Nick, this.Name);
+    this.onBtnConfirmClick.emit(player)
   }
 
   btnCancelClick(){

@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Content } from '@angular/compiler/src/render3/r3_ast';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Player, PlayEvent, Settings } from '../Model';
 
 @Component({
@@ -12,7 +14,8 @@ export class SettingsComponent implements OnInit {
   
     PlayEventsList: PlayEvent[];
     PlayersList: Player[];
-    constructor() {}
+    constructor(private modalService: NgbModal) {}
+    @ViewChild('newPlayerModal') newPlayerModal: ElementRef;
 
   ngOnInit() {
     // this.paddleStats = JSON.parse(localStorage.getItem('3TStats'));
@@ -32,12 +35,16 @@ export class SettingsComponent implements OnInit {
   showNewEventForm: boolean = false;
   
   btnShowNewPlayerFormClick() {
-    this.showNewPlayerForm = true;
+    this.modalService.open(this.newPlayerModal)
   }
-  btnAddNewPlayerClick(){
 
+  newPlayerCancel()
+  {
+    this.showNewPlayerForm = false;
   }
-  btnCancelNewPlayerClick(){
+
+  newPlayerConfirm(player: Player){
+    this.PlayersList.push(player);
     this.showNewPlayerForm = false;
   }
 

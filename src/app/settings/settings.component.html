@@ -73,3 +73,9 @@
     </div>
   </div>
 </div>
+<ng-template #newPlayerModal let-modal id="newPlayerModal">      
+  <new-player 
+    (onBtnCancelClick)="newPlayerCancel()"
+    (onBtnConfirmClick)="newPlayerConfirm($event)"
+  ></new-player>
+</ng-template>

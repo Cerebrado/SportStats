@@ -15,7 +15,7 @@ export class AppComponent {
     ) {}
   
   ngOnInit() {
-    this.menuOption = 0;
+    this.menuOption = 3;
      this.signInService.User.subscribe((user) => {
        this.User = user;
        this.ref.detectChanges();
