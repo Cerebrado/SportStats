@@ -45,10 +45,10 @@ export class AppComponent {
 
   menuOption: number;
   showNewMatchButton():boolean{
-    if(!this.Model)
+    if(!this.Model || !this.User )
       return false;
-    
-    return this.menuOption == 0 
+
+      return this.menuOption == 0 
     && this.Model.Settings.PlayersList.length >= 4 && 
     this.Model.Settings.PlayEventsList.length > 0
   }
