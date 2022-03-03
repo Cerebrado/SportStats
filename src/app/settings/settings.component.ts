@@ -2,6 +2,7 @@ import { Content } from '@angular/compiler/src/render3/r3_ast';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Player, PlayEvent, Settings } from '../Model';
+import { NewPlayerComponent } from '../new-player/new-player.component';
 
 @Component({
   selector: 'settings',
@@ -15,9 +16,9 @@ export class SettingsComponent implements OnInit {
     PlayEventsList: PlayEvent[];
     PlayersList: Player[];
     constructor(private modalService: NgbModal) {}
-    @ViewChild('newPlayerModal') newPlayerModal: ElementRef;
 
-  ngOnInit() {
+    ngOnInit() {
+      this.PlayersList = new Array<Player>();
     // this.paddleStats = JSON.parse(localStorage.getItem('3TStats'));
     // // this.paddleStats.playersList = [
     // //   new Player('Edu', 'Eduardo'),
@@ -31,32 +32,20 @@ export class SettingsComponent implements OnInit {
     // // ];
   }
 
-  showNewPlayerForm: boolean = false;
-  showNewEventForm: boolean = false;
   
   btnShowNewPlayerFormClick() {
-    this.modalService.open(this.newPlayerModal)
+    const modal = this.modalService.open(NewPlayerComponent)
+    modal.result
+      .then(
+          (result:Player) => {if(result) this.PlayersList.push(result)})
+      .catch(
+          (reason: any) => { if(reason != 0) console.log(reason)}
+      );
   }
 
-  newPlayerCancel()
-  {
-    this.showNewPlayerForm = false;
-  }
+  btnShowNewEventFormClick(){}
 
-  newPlayerConfirm(player: Player){
-    this.PlayersList.push(player);
-    this.showNewPlayerForm = false;
-  }
-
-  btnShowNewEventFormClick() {
-    this.showNewEventForm = true;
-  }
     
-  btnAddNewEventClick (){}
-  btnCancelNewEventClick (){
-    this.showNewEventForm = true;
-  }
-
   btnCancelClick() {
     this.onBtnCancelClick.emit(null);
   }
