@@ -3,6 +3,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Player, PlayEvent, Settings } from '../Model';
 import { NewPlayerComponent } from '../new-player/new-player.component';
+import { NewPlayeventComponent } from '../new-playevent/new-playevent.component';
 
 @Component({
   selector: 'settings',
@@ -19,6 +20,7 @@ export class SettingsComponent implements OnInit {
 
     ngOnInit() {
       this.PlayersList = new Array<Player>();
+      this.PlayEventsList = new Array<PlayEvent>();
     // this.paddleStats = JSON.parse(localStorage.getItem('3TStats'));
     // // this.paddleStats.playersList = [
     // //   new Player('Edu', 'Eduardo'),
@@ -43,7 +45,16 @@ export class SettingsComponent implements OnInit {
       );
   }
 
-  btnShowNewEventFormClick(){}
+  btnShowNewEventFormClick(){
+    const modal = this.modalService.open(NewPlayeventComponent)
+    modal.result
+      .then(
+          (result:PlayEvent) => {if(result) this.PlayEventsList.push(result)})
+      .catch(
+          (reason: any) => { if(reason != 0) console.log(reason)}
+      );
+
+  }
 
     
   btnCancelClick() {

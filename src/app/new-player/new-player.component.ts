@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component} from '@angular/core';
 import { Player } from '../Model';
 import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -6,13 +6,12 @@ import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
   selector: 'new-player',
   templateUrl: './new-player.component.html',
 })
-export class NewPlayerComponent implements OnInit {
+export class NewPlayerComponent {
 
   Nick: string = '';
   Name: string = '' ;
   
   constructor(public activeModal: NgbActiveModal) {}
-    ngOnInit() {}
   
   btnSaveNewPlayerClick() {
     if(this.Nick == '' || this.Name == '')
@@ -24,7 +23,4 @@ export class NewPlayerComponent implements OnInit {
     this.activeModal.close(player);
   }
 
-  btnCancelClick(){
-    this.activeModal.close();
-  }
 }
