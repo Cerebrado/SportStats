@@ -21,7 +21,6 @@ export class GoogleSigninService {
     this.auth2
       .signIn()
       .then((user) => {
-        //console.log("signed in")
         this.subject?.next(user);
       })
       .catch((error) => {
@@ -36,9 +35,9 @@ export class GoogleSigninService {
     });
   }
 
-  User: Observable<gapi.auth2.GoogleUser | null> = this.subject.asObservable();
+  //User: Observable<gapi.auth2.GoogleUser > = this.subject.asObservable();
 
-// public observable(): Observable<gapi.auth2.GoogleUser|null> {
-//     return this.subject.asObservable();
-// }
+public User(): Observable<gapi.auth2.GoogleUser> {
+    return this.subject.asObservable();
+}
 }

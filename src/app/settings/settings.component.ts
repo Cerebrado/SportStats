@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Model, ModelService, Player, PlayEvent, Settings } from '../Model/modelService';
+import { Model, ModelService, Player, PlayEvent } from '../Model/modelService';
 import { NewPlayerComponent } from '../new-player/new-player.component';
 import { NewPlayeventComponent } from '../new-playevent/new-playevent.component';
 
@@ -8,25 +8,19 @@ import { NewPlayeventComponent } from '../new-playevent/new-playevent.component'
   selector: 'settings',
   templateUrl: './settings.component.html',
 })
-export class SettingsComponent implements OnInit{
+export class SettingsComponent{
 
   constructor(
     private modalService: NgbModal, 
-    private modelService: ModelService,
-    //private ref: ChangeDetectorRef
-    ) {
+    private modelService: ModelService) 
+  {
       this.modelService.Model.subscribe((model) =>{
         this.Model = model;
       })  
   }
 
   Model:Model;
-  
-  ngOnInit() {
-    //this.ref.detectChanges();
-  }
-
-  
+    
   btnShowNewPlayerFormClick() {
     const modal = this.modalService.open(NewPlayerComponent)
     modal.result

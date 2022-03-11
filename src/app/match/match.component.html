@@ -1,28 +1,29 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-6">
+    <div class="col-4">
       <button
         class="btn btn-outline-primary ml-2 btn-sm"
         type="button"
       (click)="btnShowNewMatchForm()"
-    >
-      <span>New Match</span>
-    </button>
-
+      >
+        <span>New Match</span>
+      </button>
     </div>
-    <div class="col-6">
+    <div class="col-4">
+      Current Game: {{ Model.CurrentMatch?.Name }}
+    </div>
+    <div class="col-4">
       <button
         class="btn btn-outline-danger ml-2 btn-sm"
         type="button"
       (click)="btnCancelCurrentMatch()"
-    >
-      <span>Cancel</span>
-    </button>
-
+      >
+        <span>Cancel</span>
+      </button>
     </div>
   </div>
   <div class="row">
-    <div class="col-3">
+    <!-- <div class="col-3">
       <table class="table">
         <tr>
           <td colspan="3">
@@ -46,8 +47,8 @@
           <td class="text-center"><h1>0 - 0</h1></td>
         </tr>
       </table>
-    </div>
-    <div class="col-3">
+    </div> -->
+    <div class="col-4">
       <div class="list-group btn-group">
         <ng-template
           let-t
@@ -73,12 +74,12 @@
       </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-8">
       <div class="row">
         <ng-template
           let-s
           ngFor
-          [ngForOf]="Model.CurrentMatch?.PlayEventsList"
+          [ngForOf]="Model.Settings.PlayEventsList"
           let-i="index"
         >
           <button class="btn btn-primary p-4 mt-3 ml-2" *ngIf="s.Value == 1">
@@ -90,7 +91,7 @@
         <ng-template
           let-s
           ngFor
-          [ngForOf]="Model.CurrentMatch?.PlayEventsList"
+          [ngForOf]="Model.Settings.PlayEventsList"
           let-i="index"
         >
           <button class="btn btn-warning p-4 mt-3 ml-2" *ngIf="s.Value == 0">
@@ -102,7 +103,7 @@
         <ng-template
           let-s
           ngFor
-          [ngForOf]="Model.CurrentMatch?.PlayEventsList"
+          [ngForOf]="Model.Settings.PlayEventsList"
           let-i="index"
         >
           <button class="btn btn-danger p-4 mt-3 ml-2" *ngIf="s.Value == -1">

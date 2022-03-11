@@ -1,7 +1,5 @@
-import { ChangeDetectorRef, Component, Input, OnInit, Output, VERSION } from '@angular/core';
+import { Component} from '@angular/core';
 import { GoogleSigninService } from 'src/app/Model/google-signin.service';
-import { ModelService } from 'src/app/Model/modelService';
-import { Model } from './Model/modelService';
 
 
 @Component({
@@ -9,24 +7,23 @@ import { Model } from './Model/modelService';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
-  User: gapi.auth2.GoogleUser|null;
+export class AppComponent  {
+  _user : gapi.auth2.GoogleUser;
+  get User(): gapi.auth2.GoogleUser{
+    return this._user;
+  }
   
   constructor(
     private signInService: GoogleSigninService, 
-    private ref: ChangeDetectorRef
     ) {
-      this.signInService.User.subscribe((user) => {
-        this.User = user;
+      this.signInService.User().subscribe((user) => {
+        this._user = user;
      });
  
   }
   
   menuOption: number = 1;
 
-  ngOnInit() {
-    //this.ref.detectChanges();
-  }
 
   SignIn(){
     this.signInService.signIn();
@@ -39,6 +36,5 @@ export class AppComponent implements OnInit {
 
   setMenuOption(menuOption: number){
     this.menuOption = menuOption;
-    this.ref.detectChanges();
   }
 }

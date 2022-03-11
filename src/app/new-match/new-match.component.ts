@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output, VERSION } from '@angular/core';
-import { Match, Player, Settings } from '../Model/modelService';
+import { Component} from '@angular/core';
+import { Match, Model, ModelService, Player, Settings } from '../Model/modelService';
 import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -7,20 +7,27 @@ import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './new-match.component.html',
 })
 export class NewMatchComponent {
-  Match: Match = new Match();
-  Settings: Settings = new Settings();
 
   _selectedPlayers: Player[];
  
-  constructor(public activeModal: NgbActiveModal) {}
+  Model:Model;
+
+  constructor(
+    public activeModal: NgbActiveModal,
+    private modelService: ModelService) 
+  {
+      this.modelService.Model.subscribe((model) =>{
+        this.Model = model;
+      })  
+  }
   
   ngOnInit() {
 
     this._selectedPlayers = [
-      this.Match.Teams[0].Players[0],
-      this.Match.Teams[0].Players[1],
-      this.Match.Teams[1].Players[0],
-      this.Match.Teams[1].Players[1],
+      this.Model.CurrentMatch.Teams[0].Players[0],
+      this.Model.CurrentMatch.Teams[0].Players[1],
+      this.Model.CurrentMatch.Teams[1].Players[0],
+      this.Model.CurrentMatch.Teams[1].Players[1],
     ];
   }
 
@@ -28,14 +35,14 @@ export class NewMatchComponent {
     for (let j = 0; j < 4; j++) {
       if (
         this._selectedPlayers[j] !== null &&
-        this._selectedPlayers[j].Nick == this.Settings.PlayersList[i].Nick &&
-        this._selectedPlayers[j].Name == this.Settings.PlayersList[i].Name
+        this._selectedPlayers[j].Nick == this.Model.Settings.PlayersList[i].Nick &&
+        this._selectedPlayers[j].Name == this.Model.Settings.PlayersList[i].Name
       ) {
-        alert(this.Settings.PlayersList[i].Nick + ' is already playing');
+        alert(this.Model.Settings.PlayersList[i].Nick + ' is already playing');
         return;
       }
       if (this._selectedPlayers[j] === null) {
-        this._selectedPlayers[j] = this.Settings.PlayersList[i];
+        this._selectedPlayers[j] = this.Model.Settings.PlayersList[i];
         return;
       }
     }
@@ -67,7 +74,8 @@ export class NewMatchComponent {
     match.Teams[1].Players.push(
       new Player(this._selectedPlayers[3].Nick, this._selectedPlayers[3].Name)
     );
-
+    
+    this.modelService.SetNewMatch(match);
     this.activeModal.close(match);
   }
 }

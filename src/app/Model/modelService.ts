@@ -55,7 +55,7 @@ import {BehaviorSubject, Observable, Subject } from "rxjs";
  
  export class Model {
    History: Match[] = new Array<Match>();
-   CurrentMatch: Match  = new Match;
+   CurrentMatch: Match  = new Match();
    Settings: Settings  = new Settings();
  }
 
@@ -91,7 +91,7 @@ export class Player {
 }
 
 export class Team {
-  public Players: Player[] = new Array<Player>();
+  public Players: Player[] = [new Player('',''), new Player('','')];
   public SetScore: number[] = new Array<number>();
   public GameCounting: number = 0;
   public GameScoreDisplay: string = '';

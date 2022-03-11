@@ -11,7 +11,7 @@
           <table class="table table-sm">
             <tr
               style="cursor: pointer"
-              *ngFor="let p of Settings.PlayersList; index as i"
+              *ngFor="let p of Model.Settings.PlayersList; index as i"
               (click)="AddPlayer(i)"
             >
               <td width="90%">{{ p.Nick }} - {{ p.Name }}</td>
