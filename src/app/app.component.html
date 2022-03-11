@@ -5,7 +5,7 @@
       <button
         class="btn btn-outline-success"
         type="button"
-        (click)="startNewGame()"
+        (click)="setMenuOption(1)"
         *ngIf="User != null"
       >
         <span class="material-icons">sports_tennis</span>
@@ -13,7 +13,7 @@
       <button
         class="btn btn-outline-success ml-3"
         type="button"
-        (click)="statistics()"
+        (click)="setMenuOption(2)"
         *ngIf="User != null"
       >
         <span class="material-icons">leaderboard</span>
@@ -21,7 +21,7 @@
       <button
         class="btn btn-outline-success ml-3"
         type="button"
-        (click)="settings()"
+        (click)="setMenuOption(3)"
         *ngIf="User != null"
       >
         <span class="material-icons">settings</span>
@@ -46,19 +46,6 @@
     </form>
   </nav>
 </div>
-<match *ngIf="menuOption == 0"
-  [Match]="Model.CurrentMatch">
-</match>
-
-<new-match
-  *ngIf="menuOption == 1"
-  [Settings]="Model.Settings"
-  (onNewGameCreated)="newGameCreated($event)"
-  (onbtnCancelClick)="btnCancelClick()"
-></new-match>
+<match *ngIf="menuOption == 1"></match>
 <statistics *ngIf="menuOption == 2"></statistics>
-<settings
-  *ngIf="menuOption == 3"
-  (onBtnCancelClick)="btnCancelClick()"
-  (onBtnConfirmClick)="btnSettingsConfirmClick($event)"
-></settings>
+<settings *ngIf="menuOption == 3"></settings>

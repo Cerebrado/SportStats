@@ -23,7 +23,7 @@ import { NewPlayeventComponent } from './new-playevent/new-playevent.component';
     SettingsComponent,
     LoginComponent,
     NewPlayerComponent,
-      NewPlayeventComponent
+    NewPlayeventComponent
    ],
   bootstrap: [AppComponent],
   entryComponents:[

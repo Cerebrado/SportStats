@@ -1,20 +1,20 @@
 import { Component, EventEmitter, Input, Output, VERSION } from '@angular/core';
-import { Match, Player, Settings } from '../Model';
+import { Match, Player, Settings } from '../Model/modelService';
+import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'new-match',
   templateUrl: './new-match.component.html',
 })
 export class NewMatchComponent {
-  Match: Match;
-  @Input() Settings: Settings;
-  @Output() onNewMatchCreated: EventEmitter<Match> = new EventEmitter<Match>();
-  @Output() onbtnCancelClick: EventEmitter<any> = new EventEmitter<any>();
+  Match: Match = new Match();
+  Settings: Settings = new Settings();
 
   _selectedPlayers: Player[];
-
+ 
+  constructor(public activeModal: NgbActiveModal) {}
+  
   ngOnInit() {
-    this.Match = new Match();
 
     this._selectedPlayers = [
       this.Match.Teams[0].Players[0],
@@ -68,10 +68,6 @@ export class NewMatchComponent {
       new Player(this._selectedPlayers[3].Nick, this._selectedPlayers[3].Name)
     );
 
-    this.onNewMatchCreated.emit(match);
-  }
-
-  btnCancelClick() {
-    this.onbtnCancelClick.emit();
+    this.activeModal.close(match);
   }
 }

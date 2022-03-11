@@ -1,7 +1,6 @@
-import { Content } from '@angular/compiler/src/render3/r3_ast';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Player, PlayEvent, Settings } from '../Model';
+import { Model, ModelService, Player, PlayEvent, Settings } from '../Model/modelService';
 import { NewPlayerComponent } from '../new-player/new-player.component';
 import { NewPlayeventComponent } from '../new-playevent/new-playevent.component';
 
@@ -9,29 +8,22 @@ import { NewPlayeventComponent } from '../new-playevent/new-playevent.component'
   selector: 'settings',
   templateUrl: './settings.component.html',
 })
-export class SettingsComponent implements OnInit {
-  @Output() onBtnCancelClick: EventEmitter<null> = new EventEmitter<null>();
-  @Output() onBtnConfirmClick: EventEmitter<Settings> =
-    new EventEmitter<Settings>();
-  
-    PlayEventsList: PlayEvent[];
-    PlayersList: Player[];
-    constructor(private modalService: NgbModal) {}
+export class SettingsComponent implements OnInit{
 
-    ngOnInit() {
-      this.PlayersList = new Array<Player>();
-      this.PlayEventsList = new Array<PlayEvent>();
-    // this.paddleStats = JSON.parse(localStorage.getItem('3TStats'));
-    // // this.paddleStats.playersList = [
-    // //   new Player('Edu', 'Eduardo'),
-    // //   new Player('Diego', 'Diego P'),
-    // //   new Player('Javi', 'Javi N'),
-    // //   new Player('Juan', 'Juan N'),
-    // //   new Player('KKK', 'Eduardo'),
-    // //   new Player('CCC', 'Diego P'),
-    // //   new Player('LLL', 'Javi N'),
-    // //   new Player('XXX', 'Juan N'),
-    // // ];
+  constructor(
+    private modalService: NgbModal, 
+    private modelService: ModelService,
+    //private ref: ChangeDetectorRef
+    ) {
+      this.modelService.Model.subscribe((model) =>{
+        this.Model = model;
+      })  
+  }
+
+  Model:Model;
+  
+  ngOnInit() {
+    //this.ref.detectChanges();
   }
 
   
@@ -39,7 +31,7 @@ export class SettingsComponent implements OnInit {
     const modal = this.modalService.open(NewPlayerComponent)
     modal.result
       .then(
-          (result:Player) => {if(result) this.PlayersList.push(result)})
+          (result:Player) => {if(result) this.modelService.AddSettingsPlayer(result)})
       .catch(
           (reason: any) => { if(reason != 0) console.log(reason)}
       );
@@ -49,20 +41,10 @@ export class SettingsComponent implements OnInit {
     const modal = this.modalService.open(NewPlayeventComponent)
     modal.result
       .then(
-          (result:PlayEvent) => {if(result) this.PlayEventsList.push(result)})
+          (result:PlayEvent) => {if(result) this.modelService.AddSettingsEvent(result)})
       .catch(
           (reason: any) => { if(reason != 0) console.log(reason)}
       );
 
-  }
-
-    
-  btnCancelClick() {
-    this.onBtnCancelClick.emit(null);
-  }
-
-  btnConfirmClick() {
-    let settings = new Settings();    
-    this.onBtnConfirmClick.emit(settings);
   }
 }

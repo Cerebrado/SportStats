@@ -21,7 +21,7 @@ export class GoogleSigninService {
     this.auth2
       .signIn()
       .then((user) => {
-        console.log("signed in")
+        //console.log("signed in")
         this.subject?.next(user);
       })
       .catch((error) => {

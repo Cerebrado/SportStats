@@ -17,7 +17,7 @@
           <table class="table table-sm">
             <tr
               style="cursor: pointer"
-              *ngFor="let p of PlayersList; index as i"
+              *ngFor="let p of Model.Settings.PlayersList; index as i"
             >
               <td width="90%">{{ p.Nick }} - {{ p.Name }}</td>
               <td>
@@ -46,7 +46,7 @@
           <table class="table table-sm">
             <tr
               style="cursor: pointer"
-              *ngFor="let p of PlayEventsList; index as i"
+              *ngFor="let p of Model.Settings.PlayEventsList; index as i"
             >
               <td width="90%">{{ p.Short }} - {{ p.Long }}</td>
               <td>
@@ -60,7 +60,7 @@
       </div>
     </div>
   </div>
-  <div class="row mt-3 justify-content-end">
+  <!-- <div class="row mt-3 justify-content-end">
     <div class="col-3">
       <button class="btn btn-secondary" (click)="btnCancelClick()">
         Cancelar
@@ -71,7 +71,7 @@
         Guardar
       </button>
     </div>
-  </div>
+  </div> -->
 </div>
 <!-- <ng-template #newPlayerModal let-modal id="newPlayerModal">      
   <new-player></new-player> new-player>
