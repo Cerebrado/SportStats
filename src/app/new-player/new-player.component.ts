@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import { Player } from '../Model/modelService';
+import { Player } from '../Model/model';
 import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Model, ModelService, Player, PlayEvent } from '../Model/modelService';
+import { Settings, Player, PlayEvent } from '../Model/model';
+import { SettingsService } from '../Model/settings.service';
 import { NewPlayerComponent } from '../new-player/new-player.component';
 import { NewPlayeventComponent } from '../new-playevent/new-playevent.component';
 
@@ -12,20 +13,20 @@ export class SettingsComponent{
 
   constructor(
     private modalService: NgbModal, 
-    private modelService: ModelService) 
+    private settingsService: SettingsService) 
   {
-      this.modelService.Model.subscribe((model) =>{
-        this.Model = model;
+      this.settingsService.Settings.subscribe((settings) =>{
+        this.Settings = settings;
       })  
   }
 
-  Model:Model;
+  Settings:Settings;
     
   btnShowNewPlayerFormClick() {
     const modal = this.modalService.open(NewPlayerComponent)
     modal.result
       .then(
-          (result:Player) => {if(result) this.modelService.AddSettingsPlayer(result)})
+          (result:Player) => {if(result) this.settingsService.addPlayer(result)})
       .catch(
           (reason: any) => { if(reason != 0) console.log(reason)}
       );
@@ -35,10 +36,9 @@ export class SettingsComponent{
     const modal = this.modalService.open(NewPlayeventComponent)
     modal.result
       .then(
-          (result:PlayEvent) => {if(result) this.modelService.AddSettingsEvent(result)})
+          (result:PlayEvent) => {if(result) this.settingsService.addEvent(result)})
       .catch(
           (reason: any) => { if(reason != 0) console.log(reason)}
       );
-
   }
 }

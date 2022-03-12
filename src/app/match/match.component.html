@@ -1,4 +1,7 @@
-<div class="container-fluid">
+<div *ngIf="Match == null">
+  No current match. Start a <a href="#" (click)="btnShowNewMatchForm()">new one</a> 
+</div>
+<div class="container-fluid" *ngIf="Match != null" >
   <div class="row">
     <div class="col-4">
       <button
@@ -10,7 +13,7 @@
       </button>
     </div>
     <div class="col-4">
-      Current Game: {{ Model.CurrentMatch?.Name }}
+      Current Game: {{ Match.Name }}
     </div>
     <div class="col-4">
       <button
@@ -27,7 +30,7 @@
       <table class="table">
         <tr>
           <td colspan="3">
-            {{ Model.CurrentMatch?.Name }}
+            {{ Match?.Name }}
           </td>
         </tr>
         <tr>
@@ -53,7 +56,7 @@
         <ng-template
           let-t
           ngFor
-          [ngForOf]="Model.CurrentMatch?.Teams"
+          [ngForOf]="Match?.Teams"
           let-i="index"
         >
           <ng-template let-p ngFor [ngForOf]="t.Players">
@@ -79,7 +82,7 @@
         <ng-template
           let-s
           ngFor
-          [ngForOf]="Model.Settings.PlayEventsList"
+          [ngForOf]="Settings.PlayEventsList"
           let-i="index"
         >
           <button class="btn btn-primary p-4 mt-3 ml-2" *ngIf="s.Value == 1">
@@ -91,7 +94,7 @@
         <ng-template
           let-s
           ngFor
-          [ngForOf]="Model.Settings.PlayEventsList"
+          [ngForOf]="Settings.PlayEventsList"
           let-i="index"
         >
           <button class="btn btn-warning p-4 mt-3 ml-2" *ngIf="s.Value == 0">
@@ -103,7 +106,7 @@
         <ng-template
           let-s
           ngFor
-          [ngForOf]="Model.Settings.PlayEventsList"
+          [ngForOf]="Settings.PlayEventsList"
           let-i="index"
         >
           <button class="btn btn-danger p-4 mt-3 ml-2" *ngIf="s.Value == -1">

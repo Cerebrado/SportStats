@@ -1,6 +1,8 @@
 import { Component} from '@angular/core';
-import { Match, Model, ModelService, Player, Settings } from '../Model/modelService';
 import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { MatchService } from '../Model/match.service';
+import { Match, Player, Settings } from '../Model/model';
+import { SettingsService } from '../Model/settings.service';
 
 @Component({
   selector: 'new-match',
@@ -8,74 +10,71 @@ import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class NewMatchComponent {
 
-  _selectedPlayers: Player[];
+  selectedPlayers: (Player | null)[] = [null, null, null, null];
  
-  Model:Model;
+  Match:Match;
+  Settings: Settings;
 
   constructor(
     public activeModal: NgbActiveModal,
-    private modelService: ModelService) 
+    private matchService: MatchService,
+    private settingsService: SettingsService) 
   {
-      this.modelService.Model.subscribe((model) =>{
-        this.Model = model;
+      this.matchService.Match.subscribe((match) =>{
+        this.Match = match;
       })  
-  }
+      this.settingsService.Settings.subscribe((settings) =>{
+        this.Settings = settings;
+      })  
+   }
   
   ngOnInit() {
-
-    this._selectedPlayers = [
-      this.Model.CurrentMatch.Teams[0].Players[0],
-      this.Model.CurrentMatch.Teams[0].Players[1],
-      this.Model.CurrentMatch.Teams[1].Players[0],
-      this.Model.CurrentMatch.Teams[1].Players[1],
-    ];
+    if(this.Match != null){
+      this.selectedPlayers = [
+        this.Match.Teams[0].Players[0],
+        this.Match.Teams[0].Players[1],
+        this.Match.Teams[1].Players[0],
+        this.Match.Teams[1].Players[1],
+      ];
+    }
   }
 
   AddPlayer(i: number) {
     for (let j = 0; j < 4; j++) {
       if (
-        this._selectedPlayers[j] !== null &&
-        this._selectedPlayers[j].Nick == this.Model.Settings.PlayersList[i].Nick &&
-        this._selectedPlayers[j].Name == this.Model.Settings.PlayersList[i].Name
+        this.selectedPlayers[j] !== null &&
+        this.selectedPlayers[j].Nick == this.Settings.PlayersList[i].Nick &&
+        this.selectedPlayers[j].Name == this.Settings.PlayersList[i].Name
       ) {
-        alert(this.Model.Settings.PlayersList[i].Nick + ' is already playing');
+        alert(this.Settings.PlayersList[i].Nick + ' is already playing');
         return;
       }
-      if (this._selectedPlayers[j] === null) {
-        this._selectedPlayers[j] = this.Model.Settings.PlayersList[i];
+      if (this.selectedPlayers[j] === null) {
+        this.selectedPlayers[j] = this.Settings.PlayersList[i];
         return;
       }
     }
   }
   
   RemovePlayer(i: number) {
-    this._selectedPlayers[i].Nick = '';
-    this._selectedPlayers[i].Name = '';
+    this.selectedPlayers[i] = null;
   }
 
   btnConfirmNewMatchClick() {
     for (let i = 0; i < 4; i++) {
-      if (this._selectedPlayers[i].Nick === '') {
+      if (this.selectedPlayers[i] === null) {
         alert('There must be 4 people to play. Get some friends');
         return;
       }
     }
 
     var match = new Match();
-    match.Teams[0].Players.push(
-      new Player(this._selectedPlayers[0].Nick, this._selectedPlayers[0].Name)
-    );
-    match.Teams[0].Players.push(
-      new Player(this._selectedPlayers[1].Nick, this._selectedPlayers[1].Name)
-    );
-    match.Teams[1].Players.push(
-      new Player(this._selectedPlayers[2].Nick, this._selectedPlayers[2].Name)
-    );
-    match.Teams[1].Players.push(
-      new Player(this._selectedPlayers[3].Nick, this._selectedPlayers[3].Name)
-    );
+    match.Teams[0].Players.push(this.selectedPlayers[0])
+    match.Teams[0].Players.push(this.selectedPlayers[1]);
+    match.Teams[1].Players.push(this.selectedPlayers[2]);
+    match.Teams[1].Players.push(this.selectedPlayers[3]);
     
-    this.modelService.SetNewMatch(match);
+    this.matchService.new(match);
     this.activeModal.close(match);
   }
 }

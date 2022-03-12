@@ -11,7 +11,7 @@
           <table class="table table-sm">
             <tr
               style="cursor: pointer"
-              *ngFor="let p of Model.Settings.PlayersList; index as i"
+              *ngFor="let p of Settings.PlayersList; index as i"
               (click)="AddPlayer(i)"
             >
               <td width="90%">{{ p.Nick }} - {{ p.Name }}</td>
@@ -34,9 +34,9 @@
               <table class="table table-sm">
                 <tr>
                   <td width="90%">
-                    <span *ngIf="_selectedPlayers[0]">
-                      {{ _selectedPlayers[0].Nick }} -
-                      {{ _selectedPlayers[0].Name }}
+                    <span *ngIf="selectedPlayers[0]">
+                      {{ selectedPlayers[0].Nick }} -
+                      {{ selectedPlayers[0].Name }}
                     </span>
                   </td>
                   <td>
@@ -47,9 +47,9 @@
                 </tr>
                 <tr>
                   <td width="90%">
-                    <span *ngIf="_selectedPlayers[1]">
-                      {{ _selectedPlayers[1].Nick }} -
-                      {{ _selectedPlayers[1].Name }}
+                    <span *ngIf="selectedPlayers[1]">
+                      {{ selectedPlayers[1].Nick }} -
+                      {{ selectedPlayers[1].Name }}
                     </span>
                   </td>
                   <td>
@@ -71,9 +71,9 @@
               <table class="table table-sm">
                 <tr>
                   <td width="90%">
-                    <span *ngIf="_selectedPlayers[2]">
-                      {{ _selectedPlayers[2].Nick }} -
-                      {{ _selectedPlayers[2].Name }}
+                    <span *ngIf="selectedPlayers[2]">
+                      {{ selectedPlayers[2].Nick }} -
+                      {{ selectedPlayers[2].Name }}
                     </span>
                   </td>
                   <td>
@@ -84,9 +84,9 @@
                 </tr>
                 <tr>
                   <td width="90%">
-                    <span *ngIf="_selectedPlayers[3]">
-                      {{ _selectedPlayers[3].Nick }} -
-                      {{ _selectedPlayers[3].Name }}
+                    <span *ngIf="selectedPlayers[3]">
+                      {{ selectedPlayers[3].Nick }} -
+                      {{ selectedPlayers[3].Name }}
                     </span>
                   </td>
                   <td>

@@ -9,7 +9,6 @@ import { NewMatchComponent } from './new-match/new-match.component';
 import { MatchComponent } from './match/match.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { SettingsComponent } from './settings/settings.component';
-import { LoginComponent } from './login/login.component';
 import { NewPlayerComponent } from './new-player/new-player.component';
 import { NewPlayeventComponent } from './new-playevent/new-playevent.component';
 
@@ -21,13 +20,12 @@ import { NewPlayeventComponent } from './new-playevent/new-playevent.component';
     MatchComponent,
     StatisticsComponent,
     SettingsComponent,
-    LoginComponent,
     NewPlayerComponent,
     NewPlayeventComponent
    ],
   bootstrap: [AppComponent],
   entryComponents:[
-    NewPlayerComponent
+    AppComponent
   ]
    ,providers: [
      NgbActiveModal,

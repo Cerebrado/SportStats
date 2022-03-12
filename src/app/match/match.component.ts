@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { Match } from '../Model/modelService';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Model, ModelService, Player, PlayEvent, Settings } from '../Model/modelService';
+import { MatchService } from '../Model/match.service';
+import { Match, Settings } from '../Model/model';
+import { SettingsService } from '../Model/settings.service';
 import { NewMatchComponent } from '../new-match/new-match.component';
 
 @Component({
@@ -12,26 +13,31 @@ export class MatchComponent implements OnInit {
   
   constructor(
     private modalService: NgbModal, 
-    private modelService: ModelService,
-    private ref: ChangeDetectorRef)  {
-      this.modelService.Model.subscribe((model) =>{
-        this.Model = model;
+    private matchService: MatchService,
+    private settingsService: SettingsService,
+    )  {
+      this.matchService.Match.subscribe((match) =>{
+        this.Match = match;
+      })
+      this.settingsService.Settings.subscribe((settings) =>{
+        this.Settings = settings;
       })
    }
   
-  Model:Model;
+  Match:Match;
+  Settings: Settings;
   
   ngOnInit() {
-    this.ref.detectChanges();
+    //this.ref.detectChanges();
   }
 
-  StatEntry: string = '';
+  StatEntry: string [] = [];
 
   btnShowNewMatchForm() {
     const modal = this.modalService.open(NewMatchComponent)
     modal.result
       .then(
-          (result:Match) => {if(result) this.modelService.SetNewMatch(result)})
+          (result:Match) => {if(result) this.matchService.new(result)})
       .catch(
           (reason: any) => { if(reason != 0) console.log(reason)}
       );
@@ -39,7 +45,7 @@ export class MatchComponent implements OnInit {
 
   btnCancelCurrentMatch(){
     if(confirm('You are going to cancel this match. Confirm?'))
-      this.modelService.CancelCurrentMatch();
+      this.matchService.cancel();
   }
 
 

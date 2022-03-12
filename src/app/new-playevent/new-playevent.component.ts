@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import {  PlayEvent } from '../Model/modelService';
+import {  PlayEvent } from '../Model/model';
 import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 

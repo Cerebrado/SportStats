@@ -8,16 +8,25 @@ export class GoogleSigninService {
   private auth2: gapi.auth2.GoogleAuth;
   private subject:Subject<gapi.auth2.GoogleUser> = new Subject<gapi.auth2.GoogleUser>();
   constructor() {
-    gapi.load('auth2', () => {
-      this.auth2 = gapi.auth2.init({
-        client_id:
-          '416593747264-jh0j6t1rl2e0if4r63f7vhrvmn49hgqi.apps.googleusercontent.com',
+      console.log('Constructing GoogleSigninService');
+      gapi.load('auth2', () => {
+        console.log('gapi loaded')
+        setTimeout(() => 
+        {
+          this.auth2 = gapi.auth2.init({
+            client_id:
+              '416593747264-jh0j6t1rl2e0if4r63f7vhrvmn49hgqi.apps.googleusercontent.com',
+          });    
+        }, 1000);
+
+        console.log('auth2 inited')
+  
       });
-    });
-}
+  }
 
 
   public signIn() {
+    console.log('Executing GoogleSigninService.signIn')    ;
     this.auth2
       .signIn()
       .then((user) => {
@@ -35,9 +44,9 @@ export class GoogleSigninService {
     });
   }
 
-  //User: Observable<gapi.auth2.GoogleUser > = this.subject.asObservable();
+  User: Observable<gapi.auth2.GoogleUser > = this.subject.asObservable();
 
-public User(): Observable<gapi.auth2.GoogleUser> {
-    return this.subject.asObservable();
-}
+  // public User(): Observable<gapi.auth2.GoogleUser> {
+  //     return this.subject.asObservable();
+  // }
 }

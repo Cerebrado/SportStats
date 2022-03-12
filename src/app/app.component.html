@@ -1,3 +1,4 @@
+
 <div>
   <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Stats</a>
@@ -46,6 +47,11 @@
     </form>
   </nav>
 </div>
-<match *ngIf="menuOption == 1"></match>
-<statistics *ngIf="menuOption == 2"></statistics>
-<settings *ngIf="menuOption == 3"></settings>
+<div *ngIf="User == null">
+  Please, <a href="#" (click)="SignIn()">sign in</a>
+</div>
+<div *ngIf="User != null">
+  <match *ngIf="menuOption == 1"></match>
+  <statistics *ngIf="menuOption == 2"></statistics>
+  <settings *ngIf="menuOption == 3"></settings>
+</div>
