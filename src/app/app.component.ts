@@ -2,7 +2,8 @@ import { ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { GoogleSigninService } from 'src/app/Model/google-signin.service';
 import { MatchService } from './Model/match.service';
 import { Match } from './Model/model';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NewMatchComponent } from './new-match/new-match.component';
 
 
 @Component({
@@ -13,13 +14,11 @@ import { Match } from './Model/model';
 })
 export class AppComponent  implements OnInit{
   User : gapi.auth2.GoogleUser;
-  // get User(): gapi.auth2.GoogleUser{
-  //   return this._user;
-  // }
-
+ 
   constructor(
     private signInService: GoogleSigninService, 
     private matchService: MatchService,
+    private modalService: NgbModal, 
     private cdRef:ChangeDetectorRef) {
       console.log('Constructing AppComponent')
       this.signInService.User.subscribe((user) => {
@@ -54,4 +53,20 @@ export class AppComponent  implements OnInit{
   setMenuOption(menuOption: number){
     this.menuOption = menuOption;
   }
+
+  btnShowNewMatchForm() {
+    const modal = this.modalService.open(NewMatchComponent)
+    modal.result
+      .then(
+          (result:Match) => {if(result) this.matchService.new(result)})
+      .catch(
+          (reason: any) => { if(reason != 0) console.log(reason)}
+      );
+  }
+
+  btnCancelCurrentMatch(){
+    if(confirm('You are going to cancel this match. Confirm?'))
+      this.matchService.cancel();
+  }
+  
 }

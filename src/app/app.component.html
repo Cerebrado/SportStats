@@ -1,7 +1,24 @@
 
-<div>
-  <nav class="navbar navbar-dark bg-dark">
+  <nav class="navbar navbar-dark bg-dark sticky-top">
     <a class="navbar-brand" href="#">Stats</a>
+    <form class="form" *ngIf="Match != null">
+      <button
+        class="btn btn-outline-success"
+        type="button"
+        (click)="btnShowNewMatchForm()"
+      >
+        <span class="material-icons">save</span>
+      </button>
+      <span class="badge bg-dark" >Started: {{Match.Name}}</span>
+      <button
+        class="btn btn-outline-success"
+        type="button"
+        (click)="btnCancelCurrentMatch()"
+      >
+        <span class="material-icons">cancel</span>
+      </button>
+    </form>
+
     <form class="form-inline">
       <button
         class="btn btn-outline-success"
@@ -46,12 +63,11 @@
       </button>
     </form>
   </nav>
-</div>
-<div *ngIf="User == null">
+<!-- <div *ngIf="User == null">
   Please, <a href="#" (click)="SignIn()">sign in</a>
 </div>
-<div *ngIf="User != null">
+<div *ngIf="User != null"> -->
   <match *ngIf="menuOption == 1"></match>
   <statistics *ngIf="menuOption == 2"></statistics>
   <settings *ngIf="menuOption == 3"></settings>
-</div>
+<!-- </div> -->

@@ -1,56 +1,26 @@
-<div *ngIf="Match == null">
-  No current match. Start a <a href="#" (click)="btnShowNewMatchForm()">new one</a> 
-</div>
-<div class="container-fluid" *ngIf="Match != null" >
-  <div class="row">
-    <div class="col-4">
-      <button
-        class="btn btn-outline-primary ml-2 btn-sm"
-        type="button"
-      (click)="btnShowNewMatchForm()"
-      >
-        <span>New Match</span>
+<div class="container">
+  <div class="row" *ngIf="Match == null">
+    No current match. Start a <a href="#" (click)="btnShowNewMatchForm()">new one</a> 
+  </div>
+
+  <div class="row mt-2 align-items-center" *ngIf="Match != null" >
+    <div class="col-1">
+      <button class="btn btn-secondary" type="button">
+        <span class="material-icons">undo</span>
       </button>
     </div>
-    <div class="col-4">
-      Current Game: {{ Match.Name }}
+    <div class="col-9">
+      <div class="border border-primary">{{ StatEntry }}</div>
     </div>
-    <div class="col-4">
-      <button
-        class="btn btn-outline-danger ml-2 btn-sm"
-        type="button"
-      (click)="btnCancelCurrentMatch()"
-      >
-        <span>Cancel</span>
+    <div class="col-2 btn-group">
+      <button class="btn btn-dark btn-block" type="button">
+        <span class="material-icons">check</span>
       </button>
     </div>
   </div>
-  <div class="row">
-    <!-- <div class="col-3">
-      <table class="table">
-        <tr>
-          <td colspan="3">
-            {{ Match?.Name }}
-          </td>
-        </tr>
-        <tr>
-          <td><h1>0</h1></td>
-          <td><h1>0</h1></td>
-          <td><h1>0</h1></td>
-        </tr>
-        <tr>
-          <td><h1>0</h1></td>
-          <td><h1>0</h1></td>
-          <td><h1>0</h1></td>
-        </tr>
-      </table>
 
-      <table class="table table-dark">
-        <tr>
-          <td class="text-center"><h1>0 - 0</h1></td>
-        </tr>
-      </table>
-    </div> -->
+
+  <div class="row" *ngIf="Match != null" >
     <div class="col-4">
       <div class="list-group btn-group">
         <ng-template
@@ -79,16 +49,20 @@
 
     <div class="col-8">
       <div class="row">
+        <div class="btn-group">
         <ng-template
           let-s
           ngFor
           [ngForOf]="Settings.PlayEventsList"
           let-i="index"
         >
-          <button class="btn btn-primary p-4 mt-3 ml-2" *ngIf="s.Value == 1">
+          <button class="btn btn-primary p-4 mt-3 ml-2" 
+          *ngIf="s.Value == 1"
+          click="clickEvent(s)">
             {{ s.Short }}
           </button>
         </ng-template>
+        </div>
       </div>
       <div class="row">
         <ng-template
@@ -116,20 +90,4 @@
       </div>
     </div>
   </div>
-  <div class="row mt-4 align-items-center">
-    <div class="col-1">
-      <button class="btn btn-secondary" type="button">
-        <span class="material-icons">undo</span>
-      </button>
-    </div>
-    <div class="col-9">
-      <div class="border border-primary">{{ StatEntry }}</div>
-    </div>
-    <div class="col-2">
-      <button class="btn btn-dark btn-block" type="button">
-        <span class="material-icons">check</span>
-      </button>
-    </div>
-  </div>
 </div>
-
