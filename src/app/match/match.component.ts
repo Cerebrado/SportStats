@@ -13,25 +13,22 @@ export class MatchComponent implements OnInit {
 
   PlayEventsByValue: Map<number, PlayEvent[]> = new Map<number, PlayEvent[]>();
   
-
-  Match:Match;
-  StatEntry: PlayerEvent = {Player: null, PlayEvent: null};
-
+  Match: Match;
+  StatEntries: PlayerEvent[] = [];
+  lastEnteredIsPlayer: boolean = false;
+  JSON = JSON;
   constructor(
     private matchService: MatchService,
     private settingsService: SettingsService) {
-      this.matchService.Match.subscribe((match) =>{
-        this.Match = match;
-      })
+       this.matchService.Match.subscribe((match) =>{
+         this.Match = match;
+       })
       this.settingsService.Settings.subscribe((settings) =>{
-        settings.PlayEventsList.forEach(e => {
+        settings.PlayEventsList.sort((a,b) => a.Value < b.Value? 1: 0).forEach(e => {
           if(! this.PlayEventsByValue.has(e.Value))
             this.PlayEventsByValue.set(e.Value, new Array<PlayEvent>());
           this.PlayEventsByValue.get(e.Value).push(e);
         });
-        // //this returns objects, not the values --> this.EventValues = [...new Map(settings.PlayEventsList.map(item =>[item['Value'], item])).values()];
-        // this.EventValues =  [...new Set(settings.PlayEventsList.map(obj => obj.Value)) ];
-        // this.PlayEvents = settings.PlayEventsList.sort((x,y) => (x.Value > y.Value)? 1 : 0).slice(0);
       })
    }
   
@@ -40,18 +37,45 @@ export class MatchComponent implements OnInit {
   }
 
   clickPlayer(player:Player){
-    alert(player.Nick);
+    if(this.StatEntries.length == 0 || this.StatEntries[this.StatEntries.length -1].PlayEvent != null)
+      this.StatEntries.push({Player: player, PlayEvent: null});
+    else
+      this.StatEntries[this.StatEntries.length -1].Player = player;
+    
   }
 
   clickEvent(event:PlayEvent){
-    alert(event.Short);
+    
+    if(this.StatEntries.length == 0)
+      return;
+    this.StatEntries[this.StatEntries.length -1].PlayEvent = event;
   }
 
+  btnUndoClick(){
+    if(this.StatEntries.length == 0)
+      return;
+    if(this.StatEntries[this.StatEntries.length -1].PlayEvent != null)
+      this.StatEntries[this.StatEntries.length -1].PlayEvent = null;
+    else
+      this.StatEntries.splice(this.StatEntries.length -1);
+  }
+  
+  btnConfirmClick(){
+    this.StatEntries.forEach(playerEvent => {
+      playerEvent.Player.Stats.push(playerEvent.PlayEvent);
+    });  
+    this.matchService.save();
+    this.StatEntries = [];
+  }
+
+  asIsOrder(a:any, b:any) {
+    return 1;
+ }
 }
 
 
 export interface PlayerEvent{
-  Player:Player | null;
+  Player:Player;
   PlayEvent: PlayEvent | null;
   
 }

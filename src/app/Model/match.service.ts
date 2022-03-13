@@ -35,7 +35,7 @@ cancel(){
   this.save();
 }
 
-private save(){
+save(){
   localStorage.setItem('3TStats.Match', JSON.stringify(this._match));
   this.subject.next(this._match);
 }

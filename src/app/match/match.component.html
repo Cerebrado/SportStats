@@ -13,95 +13,54 @@
           let-i="index"
         >
           <ng-template let-p ngFor [ngForOf]="t.Players">
-            <button
+            <label
               (click)="clickPlayer(p)"
               class="btn p-4 mt-3"
               [ngClass]="i == 0 ? 'btn-info' : 'btn-success'"
             >
               {{ p.Nick }} &nbsp;
 
-              <span
+              <!-- <span
                 *ngIf="Match.ServiceIndex == p.ServiceOrder"
                 class="badge bg-white badge-pill"
-                >.</span
-              >
-            </button>
+              >.</span> -->
+          </label>
           </ng-template>
         </ng-template>
       </div>
     </div>
 
     <div class="col-8">
-      <div class="row" *ngFor="let kv of PlayEventsByValue | keyvalue">
+      <div class="row" *ngFor="let kv of PlayEventsByValue | keyvalue : asIsOrder">
         <div class="btn-group">
-          <button class="btn p-4 mt-3" *ngFor="let v of kv.value"
+          <label class="btn p-4 mt-3 mr-4" style="margin-right: 1em" *ngFor="let v of kv.value"
           [ngClass]="{'btn-primary': kv.key == 1, 'btn-warning' : kv.key == 0, 'btn-danger': kv.key == -1  }"
-          (click) = "clickEvent(e)"
+          (click) = "clickEvent(v)"
           >
             {{ v.Short }}
-          </button>&nbsp;&nbsp;
+          </label>
         </div>
       </div>
       
-      <!-- <div class="row">
-        <div class="btn-Group">
-
-          <!-- <ng-template
-            let-s
-            *ngFor="let e of PlayEvents"
-            let-i="index"
-          >
-            <button class="btn btn-primary p-4 mt-3" 
-            *ngIf="s.Value == 1"
-            click="clickEvent(e)">
-              
-            </button>&nbsp;&nbsp;
-          </ng-template> 
-        </div>
-      </div>
-       <div class="row">
-        <div class="btn-Group">
-      
-          <ng-template
-            let-s
-            ngFor
-            [ngForOf]="PlayEventsList"
-            let-i="index"
-          >
-            <button class="btn btn-warning p-4 mt-3" *ngIf="s.Value == 0">
-              {{ s.Short }}
-            </button>&nbsp;&nbsp;
-          </ng-template>
-          </div>
-        </div>
-        <div class="row">
-          <div class="btn-group">
-          <ng-template
-            let-s
-            ngFor
-            [ngForOf]="PlayEventsList"
-            let-i="index"
-          >
-            <button class="btn btn-danger p-4 mt-3 " *ngIf="s.Value == -1">
-              {{ s.Short }}
-            </button>&nbsp;&nbsp;
-          </ng-template>
-        </div>
-      </div> -->
     </div>
   </div>
 
   <div class="row mt-4 align-items-center" *ngIf="Match != null" >
     <div class="col-1">
-      <button class="btn btn-secondary" type="button">
+      <button class="btn btn-secondary btn-block" type="button" (click)="btnUndoClick()">
         <span class="material-icons">undo</span>
       </button>
     </div>
-    <div class="col-9">
-      <div class="border border-primary">{{ StatEntry }}</div>
+    <div class="col-9 border border-primary"> 
+      <span *ngFor="let s of StatEntries">
+        <span class="badge bg-dark fs-5"> {{s.Player.Nick}} </span>
+        <span class="badge bg-dark fs-5" *ngIf="s.PlayEvent != null"> {{s.PlayEvent.Short}} </span>
+        &nbsp;&nbsp;&nbsp;
+      </span>
+      &nbsp; 
     </div>
     <div class="col-2 btn-group">
-      <button class="btn btn-dark btn-block" type="button">
+      <button class="btn btn-dark btn-block" type="button" (click)="btnConfirmClick()">
         <span class="material-icons">check</span>
       </button>
     </div>
