@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatchService } from '../Model/match.service';
 import { Match, Player, PlayEvent, Settings } from '../Model/model';
 import { SettingsService } from '../Model/settings.service';
+import { NewMatchComponent } from '../new-match/new-match.component';
 
 @Component({
   selector: 'match',
@@ -18,6 +20,7 @@ export class MatchComponent implements OnInit {
   lastEnteredIsPlayer: boolean = false;
   JSON = JSON;
   constructor(
+    private modalService: NgbModal,
     private matchService: MatchService,
     private settingsService: SettingsService) {
        this.matchService.Match.subscribe((match) =>{
@@ -71,6 +74,18 @@ export class MatchComponent implements OnInit {
   asIsOrder(a:any, b:any) {
     return 1;
  }
+
+ btnShowNewMatchForm() {
+  const modal = this.modalService.open(NewMatchComponent)
+  modal.result
+    .then(
+        (result:Match) => {if(result) this.matchService.new(result)})
+    .catch(
+        (reason: any) => { if(reason != 0) console.log(reason)}
+    );
+}
+
+
 }
 
 
