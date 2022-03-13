@@ -83,8 +83,7 @@ export class MatchComponent implements OnInit {
     .catch(
         (reason: any) => { if(reason != 0) console.log(reason)}
     );
-}
-
+  }
 
 }
 
