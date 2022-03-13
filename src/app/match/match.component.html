@@ -3,24 +3,7 @@
     No current match. Start a <a href="#" (click)="btnShowNewMatchForm()">new one</a> 
   </div>
 
-  <div class="row mt-2 align-items-center" *ngIf="Match != null" >
-    <div class="col-1">
-      <button class="btn btn-secondary" type="button">
-        <span class="material-icons">undo</span>
-      </button>
-    </div>
-    <div class="col-9">
-      <div class="border border-primary">{{ StatEntry }}</div>
-    </div>
-    <div class="col-2 btn-group">
-      <button class="btn btn-dark btn-block" type="button">
-        <span class="material-icons">check</span>
-      </button>
-    </div>
-  </div>
-
-
-  <div class="row" *ngIf="Match != null" >
+   <div class="row" *ngIf="Match != null" >
     <div class="col-4">
       <div class="list-group btn-group">
         <ng-template
@@ -31,6 +14,7 @@
         >
           <ng-template let-p ngFor [ngForOf]="t.Players">
             <button
+              (click)="clickPlayer(p)"
               class="btn p-4 mt-3"
               [ngClass]="i == 0 ? 'btn-info' : 'btn-success'"
             >
@@ -48,46 +32,80 @@
     </div>
 
     <div class="col-8">
-      <div class="row">
+      <div class="row" *ngFor="let kv of PlayEventsByValue | keyvalue">
         <div class="btn-group">
-        <ng-template
-          let-s
-          ngFor
-          [ngForOf]="Settings.PlayEventsList"
-          let-i="index"
-        >
-          <button class="btn btn-primary p-4 mt-3 ml-2" 
-          *ngIf="s.Value == 1"
-          click="clickEvent(s)">
-            {{ s.Short }}
-          </button>
-        </ng-template>
+          <button class="btn p-4 mt-3" *ngFor="let v of kv.value"
+          [ngClass]="{'btn-primary': kv.key == 1, 'btn-warning' : kv.key == 0, 'btn-danger': kv.key == -1  }"
+          (click) = "clickEvent(e)"
+          >
+            {{ v.Short }}
+          </button>&nbsp;&nbsp;
         </div>
       </div>
-      <div class="row">
-        <ng-template
-          let-s
-          ngFor
-          [ngForOf]="Settings.PlayEventsList"
-          let-i="index"
-        >
-          <button class="btn btn-warning p-4 mt-3 ml-2" *ngIf="s.Value == 0">
-            {{ s.Short }}
-          </button>
-        </ng-template>
+      
+      <!-- <div class="row">
+        <div class="btn-Group">
+
+          <!-- <ng-template
+            let-s
+            *ngFor="let e of PlayEvents"
+            let-i="index"
+          >
+            <button class="btn btn-primary p-4 mt-3" 
+            *ngIf="s.Value == 1"
+            click="clickEvent(e)">
+              
+            </button>&nbsp;&nbsp;
+          </ng-template> 
+        </div>
       </div>
-      <div class="row">
-        <ng-template
-          let-s
-          ngFor
-          [ngForOf]="Settings.PlayEventsList"
-          let-i="index"
-        >
-          <button class="btn btn-danger p-4 mt-3 ml-2" *ngIf="s.Value == -1">
-            {{ s.Short }}
-          </button>
-        </ng-template>
-      </div>
+       <div class="row">
+        <div class="btn-Group">
+      
+          <ng-template
+            let-s
+            ngFor
+            [ngForOf]="PlayEventsList"
+            let-i="index"
+          >
+            <button class="btn btn-warning p-4 mt-3" *ngIf="s.Value == 0">
+              {{ s.Short }}
+            </button>&nbsp;&nbsp;
+          </ng-template>
+          </div>
+        </div>
+        <div class="row">
+          <div class="btn-group">
+          <ng-template
+            let-s
+            ngFor
+            [ngForOf]="PlayEventsList"
+            let-i="index"
+          >
+            <button class="btn btn-danger p-4 mt-3 " *ngIf="s.Value == -1">
+              {{ s.Short }}
+            </button>&nbsp;&nbsp;
+          </ng-template>
+        </div>
+      </div> -->
     </div>
   </div>
+
+  <div class="row mt-4 align-items-center" *ngIf="Match != null" >
+    <div class="col-1">
+      <button class="btn btn-secondary" type="button">
+        <span class="material-icons">undo</span>
+      </button>
+    </div>
+    <div class="col-9">
+      <div class="border border-primary">{{ StatEntry }}</div>
+    </div>
+    <div class="col-2 btn-group">
+      <button class="btn btn-dark btn-block" type="button">
+        <span class="material-icons">check</span>
+      </button>
+    </div>
+  </div>
+
+
 </div>
