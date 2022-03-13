@@ -54,7 +54,9 @@ export class AppComponent  implements OnInit{
     this.menuOption = menuOption;
   }
 
-  btnShowNewMatchForm() {
+  btnSaveMatch() {
+    this.matchService.saveAndclose();
+
     const modal = this.modalService.open(NewMatchComponent)
     modal.result
       .then(

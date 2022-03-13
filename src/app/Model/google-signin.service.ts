@@ -8,7 +8,6 @@ export class GoogleSigninService {
   private auth2: gapi.auth2.GoogleAuth;
   private subject:Subject<gapi.auth2.GoogleUser> = new Subject<gapi.auth2.GoogleUser>();
   constructor() {
-      console.log('Constructing GoogleSigninService');
       gapi.load('auth2', () => {
         console.log('gapi loaded')
         setTimeout(() => 
@@ -26,7 +25,6 @@ export class GoogleSigninService {
 
 
   public signIn() {
-    console.log('Executing GoogleSigninService.signIn')    ;
     this.auth2
       .signIn()
       .then((user) => {
@@ -45,8 +43,4 @@ export class GoogleSigninService {
   }
 
   User: Observable<gapi.auth2.GoogleUser > = this.subject.asObservable();
-
-  // public User(): Observable<gapi.auth2.GoogleUser> {
-  //     return this.subject.asObservable();
-  // }
 }

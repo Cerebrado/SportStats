@@ -12,7 +12,6 @@ export class MatchService {
   private subject: BehaviorSubject<Match>; 
   Match: Observable<Match>; 
 
-
 constructor(private historyService: HistoryService) { 
   const storageData = localStorage.getItem('3TStats.Match');
   if(storageData != null)
@@ -20,24 +19,29 @@ constructor(private historyService: HistoryService) {
   this.subject = new BehaviorSubject<Match>(this._match);
   this.Match =  this.subject.asObservable();
   this.subject.next(this._match)
-
 }
 
 
-new(match: Match){
-  this.historyService.add(this._match);
-  this._match = match;
-  this.save();
-}
+  new(match: Match){
+    this.historyService.add(this._match);
+    this._match = match;
+    this.save();
+  }
 
-cancel(){
-  this._match = null;
-  this.save();
-}
+  cancel(){
+    this._match = null;
+    this.save();
+  }
 
-save(){
-  localStorage.setItem('3TStats.Match', JSON.stringify(this._match));
-  this.subject.next(this._match);
-}
+  saveAndclose()
+  {
+    this.historyService.add(this._match);
+    this.cancel();
+  }
+
+  save(){
+    localStorage.setItem('3TStats.Match', JSON.stringify(this._match));
+    this.subject.next(this._match)
+  }
 
 }
