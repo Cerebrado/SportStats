@@ -4,6 +4,7 @@ import { MatchService } from './Model/match.service';
 import { Match } from './Model/model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NewMatchComponent } from './new-match/new-match.component';
+import { EChartsOption } from 'echarts/types/dist/echarts';
 
 
 @Component({
@@ -15,6 +16,22 @@ import { NewMatchComponent } from './new-match/new-match.component';
 export class AppComponent  implements OnInit{
   User : gapi.auth2.GoogleUser;
  
+  // chartOption: EChartsOption = {
+  //   xAxis: {
+  //     type: 'category',
+  //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  //   },
+  //   yAxis: {
+  //     type: 'value',
+  //   },
+  //   series: [
+  //     {
+  //       data: [820, 932, 901, 934, 1290, 1330, 1320],
+  //       type: 'line',
+  //     },
+  //   ],
+  // };
+
   constructor(
     private signInService: GoogleSigninService, 
     private matchService: MatchService,
@@ -31,7 +48,7 @@ export class AppComponent  implements OnInit{
 
   Match: Match;
 
-  menuOption: number = 1;
+  menuOption: number = 2;
 
   
   ngOnInit(): void {

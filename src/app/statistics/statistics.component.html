@@ -1,1 +1,8 @@
-<p>statistics works!</p>
+<event-history-chart></event-history-chart>
+
+<div *ngFor="let kv of EventByMatchesWithPlayersCount | keyvalue">
+    <event-history-chart 
+        [EventName]="kv.key"
+        [MatchesWithPlayersCount]="kv.value"
+    ></event-history-chart>
+</div>

@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="d-flex align-items-center justify-content-center" *ngIf="User == null">
   <div>
     <br>
@@ -8,7 +8,8 @@
   </div>
 </div>
 
-<div *ngIf="User != null"> 
+<div *ngIf="User != null">  -->
+<div>
   <nav class="navbar navbar-dark bg-dark sticky-top">
     <a class="navbar-brand" href="#">Stats</a>
     <form class="form" *ngIf="Match != null">
@@ -76,4 +77,5 @@
   <match *ngIf="menuOption == 1"></match>
   <statistics *ngIf="menuOption == 2"></statistics>
   <settings *ngIf="menuOption == 3"></settings>
+  <!-- <div echarts class="demo-chart" [options]="chartOption"></div> -->
 </div>

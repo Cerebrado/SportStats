@@ -5,6 +5,7 @@ import { Match } from './model';
 
 @Injectable({
   providedIn: 'root'
+
 })
 export class MatchService {
 
@@ -42,6 +43,10 @@ constructor(private historyService: HistoryService) {
   save(){
     localStorage.setItem('3TStats.Match', JSON.stringify(this._match));
     this.subject.next(this._match)
+  }
+
+  get(){
+    return this._match;
   }
 
 }
