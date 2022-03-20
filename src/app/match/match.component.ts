@@ -1,8 +1,9 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MatchService } from '../Model/match.service';
-import { Match, Player, PlayEvent, Settings } from '../Model/model';
+import { MatchService } from '../Model/Match';
+import { Match, Player, Event, Settings } from '../Model/model';
 import { SettingsService } from '../Model/settings.service';
+import { TournamentService } from '../Model/tournament.service';
 import { NewMatchComponent } from '../new-match/new-match.component';
 
 @Component({
@@ -13,23 +14,19 @@ import { NewMatchComponent } from '../new-match/new-match.component';
 })
 export class MatchComponent implements OnInit {
 
-  PlayEventsByValue: Map<number, PlayEvent[]> = new Map<number, PlayEvent[]>();
-  
+  PlayEventsByValue: Map<number, Event[]> = new Map<number, Event[]>();
   Match: Match;
   StatEntries: PlayerEvent[] = [];
   lastEnteredIsPlayer: boolean = false;
-  JSON = JSON;
+  
   constructor(
     private modalService: NgbModal,
-    private matchService: MatchService,
-    private settingsService: SettingsService) {
-       this.matchService.Match.subscribe((match) =>{
-         this.Match = match;
-       })
+    private tournamentService: TournamentService) {
+
       this.settingsService.Settings.subscribe((settings) =>{
         settings.PlayEventsList.sort((a,b) => a.Value < b.Value? 1: 0).forEach(e => {
           if(! this.PlayEventsByValue.has(e.Value))
-            this.PlayEventsByValue.set(e.Value, new Array<PlayEvent>());
+            this.PlayEventsByValue.set(e.Value, new Array<Event>());
           this.PlayEventsByValue.get(e.Value).push(e);
         });
       })
@@ -47,7 +44,7 @@ export class MatchComponent implements OnInit {
     
   }
 
-  clickEvent(event:PlayEvent){
+  clickEvent(event:Event){
     
     if(this.StatEntries.length == 0)
       return;
@@ -65,7 +62,7 @@ export class MatchComponent implements OnInit {
   
   btnConfirmClick(){
     this.StatEntries.forEach(playerEvent => {
-      playerEvent.Player.Stats.push(playerEvent.PlayEvent);
+      playerEvent.Player.Events.push(playerEvent.PlayEvent);
     });  
     this.matchService.save();
     this.StatEntries = [];
@@ -90,6 +87,6 @@ export class MatchComponent implements OnInit {
 
 export interface PlayerEvent{
   Player:Player;
-  PlayEvent: PlayEvent | null;
+  PlayEvent: Event | null;
   
 }
