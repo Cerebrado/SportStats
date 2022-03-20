@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { GoogleSigninService } from 'src/app/Model/google-signin.service';
-import { MatchService } from './Model/match.service';
+import { MatchService } from './Model/Match';
 import { Match } from './Model/model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NewMatchComponent } from './new-match/new-match.component';

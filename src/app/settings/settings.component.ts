@@ -1,44 +1,56 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Settings, Player, PlayEvent } from '../Model/model';
+import { Event, Settings, Sport} from '../Model/model';
 import { SettingsService } from '../Model/settings.service';
-import { NewPlayerComponent } from '../new-player/new-player.component';
-import { NewPlayeventComponent } from '../new-playevent/new-playevent.component';
+import { NewEventComponent } from '../new-event/new-event.component';
+import { NewSportComponent } from '../new-sport/new-sport.component';
 
 @Component({
   selector: 'settings',
   templateUrl: './settings.component.html',
 })
 export class SettingsComponent{
+  settings:Settings;
+  selectedSport: Sport | null;
+  events: Event[];
 
   constructor(
     private modalService: NgbModal, 
     private settingsService: SettingsService) 
-  {
-      this.settingsService.Settings.subscribe((settings) =>{
-        this.Settings = settings;
-      })  
-  }
+    {
+      this.settings = this.settingsService.get();
+    } 
+  
 
-  Settings:Settings;
-    
-  btnShowNewPlayerFormClick() {
-    const modal = this.modalService.open(NewPlayerComponent)
-    modal.result
-      .then(
-          (result:Player) => {if(result) this.settingsService.addPlayer(result)})
-      .catch(
-          (reason: any) => { if(reason != 0) console.log(reason)}
-      );
+  onSportChanged(newSport :Sport) {
+    this.selectedSport = newSport;
   }
+  
 
   btnShowNewEventFormClick(){
-    const modal = this.modalService.open(NewPlayeventComponent)
+    const modal = this.modalService.open(NewEventComponent)
     modal.result
-      .then(
-          (result:PlayEvent) => {if(result) this.settingsService.addEvent(result)})
+      .then((result:Event) => {
+        if(result) this.selectedSport.Events.push(
+          new Event(result.Short, result.Long, result.Value))
+      })
       .catch(
-          (reason: any) => { if(reason != 0) console.log(reason)}
+        (reason: any) => { if(reason != 0) console.log(reason)}
       );
+  }
+
+  btnShowNewSportFormClick(){
+    const modal = this.modalService.open(NewSportComponent)
+    modal.result
+      .then((result:Sport) => {
+        if(result) 
+          this.settings.Sports.push(result)
+      })
+      .catch(
+        (reason: any) => { if(reason != 0) console.log(reason)}
+      );
+  }
+  save(){
+    this.settingsService.save(this.settings);
   }
 }

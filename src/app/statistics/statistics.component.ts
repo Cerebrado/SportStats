@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HistoryService } from '../Model/history.service';
-import { MatchService } from '../Model/match.service';
+import { MatchService } from '../Model/Match';
 import { Match, Player, PlayEvent } from '../Model/model';
 
 @Component({

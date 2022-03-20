@@ -11,7 +11,8 @@ import { MatchComponent } from './match/match.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NewPlayerComponent } from './new-player/new-player.component';
-import { NewPlayeventComponent } from './new-playevent/new-playevent.component';
+import { NewEventComponent } from './new-event/new-event.component';
+import { NewSportComponent } from './new-sport/new-sport.component';
 import { EventHistoryChartComponent } from './event-history-chart/event-history-chart.component';
 
 @NgModule({
@@ -23,11 +24,12 @@ import { EventHistoryChartComponent } from './event-history-chart/event-history-
   declarations: [		
     AppComponent,
     NewMatchComponent,
+    NewPlayerComponent,
+    NewEventComponent,
+    NewSportComponent,
     MatchComponent,
     StatisticsComponent,
     SettingsComponent,
-    NewPlayerComponent,
-    NewPlayeventComponent,
     EventHistoryChartComponent
    ],
   bootstrap: [AppComponent],
