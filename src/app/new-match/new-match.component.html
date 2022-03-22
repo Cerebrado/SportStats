@@ -1,24 +1,63 @@
 <div class="modal-header">
-  <h3>New Match</h3>
+  <h5>New Match</h5>
 </div>
 
 <div class="modal-body container-fluid">
+<div class="container-fluid">
   <div class="row">
-    
-    <div class="col-6">
+    <div class="col-auto">
+      <label>Sport: &nbsp;</label> 
+    </div>
+    <div class="col-3">
+      <select class="form-control" [ngModel]="selectedSport" (ngModelChange)="selectSport($event)">
+        <option *ngFor="let s of sports" [ngValue]="s">{{s.name}}</option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <label>Tournament: &nbsp;</label>
+    </div>
+    <div class="col-2">
+      <select class="form-control" [ngModel]="selectedTournament" (ngModelChange)="selectTournament($event)" >
+        <option *ngFor="let t of tournaments" [ngValue]="t">{{t.name}}</option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <label>Players Per Team: &nbsp;</label>
+    </div>
+    <div class="col-1">
+      <select class="form-control" ([ngModel])="playersPerTeam">
+        <option *ngFor="let t of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]" [ngValue]="t">{{t}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-4">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Available Players</h5>
+          <div class="row">
+            <div class="col-auto">
+              <span>Players</span>
+            </div>
+            <div class="col-6">
+              <input type="text" class="form-control" [(ngModel)]="newPlayer" />
+            </div>
+            <div class="col-1">
+              <button
+              class="btn btn-outline-primary btn-sm "
+              type="button"
+              (click)="addPlayer()"><span class="material-icons">add</span>
+              </button>
+            </div>
+          </div>
           <table class="table table-sm">
             <tr
               style="cursor: pointer"
-              *ngFor="let p of Settings.PlayersList; index as i"
-              (click)="AddPlayer(i)"
+              *ngFor="let p of players"
             >
-              <td width="90%">{{ p.Nick }} - {{ p.Name }}</td>
+              <td width="90%">{{ p.nick }}</td>
               <td>
-                <a href="#">
-                  <span class="material-icons pull-right">arrow_forward</span>
+                <a href="#" (click)="confirmPlayer(p)">
+                  <span class="material-icons pull-right">arrow_right</span>
                 </a>
               </td>
             </tr>
@@ -26,91 +65,30 @@
         </div>
       </div>
     </div>
-    <div class="col-6">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Team A</h5>
-              <table class="table table-sm">
-                <tr>
-                  <td width="90%">
-                    <span *ngIf="selectedPlayers[0]">
-                      {{ selectedPlayers[0].Nick }} -
-                      {{ selectedPlayers[0].Name }}
-                    </span>
-                  </td>
-                  <td>
-                    <a href="#" (click)="RemovePlayer(0)">
-                      <span class="material-icons pull-right">close</span>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="90%">
-                    <span *ngIf="selectedPlayers[1]">
-                      {{ selectedPlayers[1].Nick }} -
-                      {{ selectedPlayers[1].Name }}
-                    </span>
-                  </td>
-                  <td>
-                    <a href="#" (click)="RemovePlayer(1)">
-                      <span class="material-icons pull-right">close</span>
-                    </a>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
+    <div class="col-4">
+      <div class="card-header">
+        Team A
       </div>
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Team B</h5>
-              <table class="table table-sm">
-                <tr>
-                  <td width="90%">
-                    <span *ngIf="selectedPlayers[2]">
-                      {{ selectedPlayers[2].Nick }} -
-                      {{ selectedPlayers[2].Name }}
-                    </span>
-                  </td>
-                  <td>
-                    <a href="#" (click)="RemovePlayer(2)">
-                      <span class="material-icons pull-right">close</span>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="90%">
-                    <span *ngIf="selectedPlayers[3]">
-                      {{ selectedPlayers[3].Nick }} -
-                      {{ selectedPlayers[3].Name }}
-                    </span>
-                  </td>
-                  <td>
-                    <a href="#" (click)="RemovePlayer(3)">
-                      <span class="material-icons pull-right">close</span>
-                    </a>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
+      <div class="card-body">
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card-header">
+        Team B
+      </div>
+      <div class="card-body">
       </div>
     </div>
   </div>
+</div> 
 
-  <div class="modal-footer">
-    <button type="button" 
-    class="btn btn-primary"
-    (click)="btnConfirmNewMatchClick()">Guardar</button>
-    
-    <button type="button" 
-    class="btn btn-secondary"
-    (click)="activeModal.dismiss()" 
-    data-dismiss="modal">Cancelar</button>
-  </div>
+<div class="modal-footer">
+  <button type="button" 
+  class="btn btn-primary"
+  (click)="btnConfirmNewMatchClick()">Empezar</button>
+  
+  <button type="button" 
+  class="btn btn-secondary"
+  (click)="activeModal.dismiss()" 
+  data-dismiss="modal">Cancelar</button>
+</div>

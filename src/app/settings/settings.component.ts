@@ -1,15 +1,16 @@
-import { ANALYZE_FOR_ENTRY_COMPONENTS, Component, OnInit, ɵɵqueryRefresh } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 import { Sport } from '../Model/Sport';
 import { Event } from '../Model/Event';
 import { Tournament } from '../Model/Tournament';
-import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { NewSportComponent } from '../new-sport/new-sport.component';
 import { NewEventComponent } from '../new-event/new-event.component';
 import { InputBoxComponent } from '../input-box/input-box.component';
-import { FormsModule } from '@angular/forms';
+
 import { DBService } from '../Model/DB.service';
 import { Player } from '../Model/Player';
-import { LEADING_TRIVIA_CHARS, renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/template';
+
 
 @Component({
   selector: 'settings',
@@ -92,30 +93,6 @@ export class SettingsComponent implements OnInit {
     }      
   }
 
-  addEvent(){
-    if(this.selectedSport == null)
-      return;
-
-    const modal = this.modalService.open(NewEventComponent)
-    modal.componentInstance.sportId = this.selectedSport.sportId;
-
-    modal.result
-      .then((result:Event) => {
-        this.events = this.DB.addEvent(result);
-      }).catch(
-        (reason: any) => { if(reason != 0) console.log(reason)}
-      );
-  }
-
-  deleteEvent(event: Event){
-    if(this.selectedSport == null)
-      return;
-    if(confirm('You will delete events and statistics associated. Continue?'))
-    {
-        this.events = this.DB.removeEvent(event);
-    }
-  }
-
 
   addTournament(){
     if(this.selectedSport == null)
@@ -151,6 +128,28 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  addEvent(){
+    if(this.selectedSport == null)
+      return;
+
+    const modal = this.modalService.open(NewEventComponent)
+    modal.componentInstance.sportId = this.selectedSport.sportId;
+
+    modal.result
+      .then((result:Event) => {
+        this.events = this.DB.addEvent(result);
+      }).catch(
+        (reason: any) => { if(reason != 0) console.log(reason)}
+      );
+  }
+
+  deleteEvent(event: Event){
+    if(confirm('You will delete events and statistics associated. Continue?'))
+    {
+        this.events = this.DB.removeEvent(event);
+    }
+  }
+
   addPlayer(){
     if(this.selectedTournament == null)
       return;
@@ -169,7 +168,7 @@ export class SettingsComponent implements OnInit {
     this.newPlayer = ''
   }
 
-  deletePlayer(player:Player){
+  deletePlayer(player:Player) {
     if(confirm('You will delete the player and statistics associated. Continue?'))
     {
       this.players = this.DB.removePlayer(player);
