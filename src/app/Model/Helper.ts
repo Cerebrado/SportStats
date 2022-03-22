@@ -1,7 +1,34 @@
+import { NgbCarouselModule } from "@ng-bootstrap/ng-bootstrap";
+
 export class Helper {
 
   constructor() { }
-  
+
+  removeFromArray(array: any[], fieldName: string, fieldValue: string) {
+    if(array.length === 0)
+      return;
+
+    if(!array[0].has['fieldName'])
+      throw "No field " + fieldName;
+    
+    for(let i =0;i<array.length; i++){
+      if(array[i][fieldName] === fieldValue){
+        array.splice(i, 1);
+        return;
+      }
+    }
+  }
+
+  getFromArray(array: any[], fieldName: string, fieldValue: string):any {
+    for(let i =0;i<array.length; i++){
+      if(array[i][fieldName] === fieldValue){
+        return array[i];
+      }
+    }
+    return null;
+  }
+
+
   private pad2(n: number) {
     return n < 10 ? '0' + n : n;
   }

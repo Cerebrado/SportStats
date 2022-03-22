@@ -6,14 +6,15 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { AppComponent } from './app.component';
-import { NewMatchComponent } from './new-match/new-match.component';
-import { MatchComponent } from './match/match.component';
-import { StatisticsComponent } from './statistics/statistics.component';
-import { SettingsComponent } from './settings/settings.component';
+import { InputBoxComponent } from './input-box/input-box.component';
 import { NewPlayerComponent } from './new-player/new-player.component';
 import { NewEventComponent } from './new-event/new-event.component';
 import { NewSportComponent } from './new-sport/new-sport.component';
-import { EventHistoryChartComponent } from './event-history-chart/event-history-chart.component';
+import { SettingsComponent } from './settings/settings.component';
+// import { MatchComponent } from './match/match.component';
+// import { NewMatchComponent } from './new-match/new-match.component';
+// import { StatisticsComponent } from './statistics/statistics.component';
+// import { EventHistoryChartComponent } from './event-history-chart/event-history-chart.component';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, CommonModule, NgbModule, 
@@ -21,16 +22,17 @@ import { EventHistoryChartComponent } from './event-history-chart/event-history-
     echarts: () => import('echarts')
   })
 ],
-  declarations: [		
+  declarations: [					
     AppComponent,
-    NewMatchComponent,
+    InputBoxComponent,
     NewPlayerComponent,
     NewEventComponent,
     NewSportComponent,
-    MatchComponent,
-    StatisticsComponent,
     SettingsComponent,
-    EventHistoryChartComponent
+    // MatchComponent,
+    //NewMatchComponent,
+    // StatisticsComponent,
+    // EventHistoryChartComponent,
    ],
   bootstrap: [AppComponent],
   entryComponents:[

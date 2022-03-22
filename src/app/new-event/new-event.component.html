@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h5 class="modal-title">New Event</h5>
-  <button type="button" class="close" (click)="activeModal.close()" aria-label="Close">
+  <button type="button" class="close" (click)="activeModal.dismiss()" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -28,6 +28,6 @@
   
   <button type="button" 
   class="btn btn-secondary"
-  (click)="activeModal.close()" 
+  (click)="activeModal.dismiss()" 
   data-dismiss="modal">Cancelar</button>
 </div>

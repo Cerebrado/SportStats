@@ -1,6 +1,7 @@
 import { Component} from '@angular/core';
-import { Player } from '../Model/model';
+import { Player } from '../Model/Player';
 import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'new-player',
@@ -10,6 +11,7 @@ export class NewPlayerComponent {
 
   Nick: string = '';
   Name: string = '' ;
+  tournamentId:string;
   
   constructor(public activeModal: NgbActiveModal) {}
   
@@ -19,7 +21,7 @@ export class NewPlayerComponent {
       alert("Nick and Name must be entered");
       return;
     }
-    const player = new Player(this.Nick, this.Name);
+    const player = new Player(this.tournamentId,this.Nick);
     this.activeModal.close(player);
   }
 

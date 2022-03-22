@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import {  Event } from '../Model/model';
+import {  Event } from '../Model/Event';
 import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -14,6 +14,7 @@ export class NewEventComponent {
   Short: string = '';
   Long: string = '';
   Value: number= 0;
+  sportId:string;
 
   btnSaveNewEventClick() {
     if(this.Short == '' )
@@ -21,7 +22,7 @@ export class NewEventComponent {
       alert("Short and Long must be entered");
       return;
     }
-    const playEvent = new Event(this.Short, this.Long, this.Value);
+    const playEvent = new Event(this.sportId, this.Short, this.Long, this.Value);
     this.activeModal.close(playEvent);
   }
 
