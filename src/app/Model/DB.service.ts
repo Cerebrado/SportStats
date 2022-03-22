@@ -3,6 +3,7 @@ import { Sport } from "./Sport";
 import { Tournament } from "./Tournament";
 import { Event } from "./Event";
 import { Player } from "./Player";
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class DBService {
   private playersTable :string =  '3TStats.Players';
   private currentMatchTable :string =  '3TStats.CurrentMatch';
   private historyTable :string =  '3TStats.HistoryMatch';
-
+  
+  
   private _sports: Sport[] = [];
   private _events: Event[] = [];
   private _tournaments: Tournament[] = [];
@@ -48,68 +50,104 @@ export class DBService {
       return this._sports;
   }
 
-  addSport(sport: Sport){
+  addSport(sport: Sport): Sport[]{
       this._sports.push(sport);
       this.save(this.sportsTable);
+      return this._sports;
   }
 
-  removeSport(sportId: string) {
-      var idx = this._sports.findIndex(x=>x.sportId === sportId);
+  removeSport(sport: Sport) : Sport[]{
+      let idx = this._sports.findIndex(x=>x.sportId === sport.sportId);
       if(idx > -1){
           this._sports.splice(idx,1);
-          this.save(this.sportsTable);
+          this.removeTournaments(sport.sportId);
+          this.removeEvents(sport.sportId);
+          this.save(this.tournamentesTable);
       }
-  }
+      return this._sports; 
+    }
 
-  getEvents(sportId:string){
+  getEvents(sportId:string):Event[]{
       return this._events.filter(x=>x.sportId === sportId);
   }
 
-  addEvent(event: Event) {
-      this._events.push(event);
+  addEvent(event: Event):Event[] {
+    let sportId= event.sportId;  
+    this._events.push(event);
+
       this.save(this.eventsTable);
+      return this.getEvents(sportId);
   }
 
-  removeEvent(eventId:string){
-      var idx = this._events.findIndex(x=>x.eventId === eventId);
+  private removeEvents(sportId:string){
+      this._events = this._events.filter(x=> x.sportId !== sportId);
+      this.save(this.eventsTable)
+  }
+
+  removeEvent(event:Event):Event[]{
+      let sportId = event.sportId
+      let idx = this._events.findIndex(x=>x.eventId === event.eventId);
       if(idx > -1){
           this._events.splice(idx,1);
           this.save(this.eventsTable);
       }
+      return this.getEvents(sportId);
   }
 
   getTournaments(sportId: string): Tournament[]{
       return this._tournaments.filter(x=>x.sportId === sportId);
   }
 
-  addTournament(tournament: Tournament) {
-      this._tournaments.push(tournament)
+  addTournament(tournament: Tournament): Tournament[] {
+      let sportId = tournament.sportId;
+      this._tournaments.push(tournament);
       this.save(this.tournamentesTable);
+      return this.getTournaments(sportId);
   }
 
-  removeTournament(tournamentId:string){
-      var idx = this._tournaments.findIndex(x=>x.tournamentId === tournamentId);
+  private removeTournaments(sportId:string){
+    this.removePlayers(this._tournaments.filter(x=>x.sportId == sportId).map(x=>x.tournamentId));
+    this._tournaments = this._tournaments.filter(x=>x.sportId !== sportId);
+    this.save(this.tournamentesTable)
+}
+
+
+  removeTournament(tournament:Tournament):Tournament[] {
+      let sportId = tournament.sportId;
+      let idx = this._tournaments.findIndex(x=>x.tournamentId === tournament.tournamentId);
       if(idx > -1){
           this._tournaments.splice(idx,1);
           this.save(this.tournamentesTable);
       }
+      return this.getTournaments(sportId);
   }
 
   getPlayers(tournamentId:string):Player[]{
       return this._players.filter(x=>x.tournamentId === tournamentId);
   }
 
-  addPlayer(player: Player){
+  addPlayer(player: Player): Player[] {
+      let tournamentId = player.tournamentId;
       this._players.push(player);
       this.save(this.playersTable);
+      return this.getPlayers(tournamentId);
+  }
+  
+  private removePlayers(tournamentIds:string[]){
+    //[{id:1},{id:2},{id:3},{id:4}].filter(v=>!([{id:2},{id:4}].some(e=>e.id === v.id)))
+
+    this._players = this._players.filter(player => !(tournamentIds.some(tId =>  player.tournamentId === tId)));
+    this.save(this.playersTable);
   }
 
-  removePlayer(playerId: string){
-      var idx = this._players.findIndex(x=>x.playerId === playerId);
+  removePlayer(player: Player): Player []{
+    let tournamentId = player.tournamentId;
+    let idx = this._players.findIndex(x=>x.playerId === player.playerId);
       if(idx > -1){
           this._players.splice(idx,1);
           this.save(this.playersTable);
       }
+      return this.getPlayers(tournamentId);
   }
 
   private save(what:string){

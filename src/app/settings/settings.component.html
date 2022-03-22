@@ -12,7 +12,7 @@
           </button>
         </div>
         <div class="col-6">
-          <select class="form-control" [(ngModel)]="selectedSport">
+          <select class="form-control" [ngModel]="selectedSport" (ngModelChange)="selectSport($event)">
             <option *ngFor="let s of sports" [ngValue]="s">{{s.name}}</option>
           </select>
         </div>
@@ -37,7 +37,7 @@
           </button>
         </div>
         <div class="col-6">
-          <select class="form-control" [(ngModel)]="selectedTournament">
+          <select class="form-control" [ngModel]="selectedTournament" (ngModelChange)="selectTournament($event)" >
             <option *ngFor="let t of tournaments" [ngValue]="t">{{t.name}}</option>
           </select>
       </div>
@@ -54,21 +54,28 @@
     <div class="col-6">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title float-left"><span>Events</span></h5>
-          <button
-            class="btn btn-outline-primary ml-2 btn-sm"
-            type="button"
-            (click)="addEvent()">
-            <span class="material-icons">add</span>
-          </button>
+          <div class="row">
+            <div class="col-3">
+              <h5 class="card-title float-left"><span>Events</span></h5>
+            </div>
+            <div class="col-auto">
+              <button
+              class="btn btn-outline-primary btn-sm "
+              type="button"
+              (click)="addEvent()"><span class="material-icons">add</span>
+              </button>
+            </div>
+          </div>
           <table class="table table-sm">
             <tr
               style="cursor: pointer"
               *ngFor="let e of events"
             >
-              <td width="90%">{{ e.short }}</td>
+              <td width="30%">{{ e.short }}</td>
+              <td width="60%">{{ e.long }}</td>
+              <td width="5%">{{ e.value }}</td>
               <td>
-                <a href="#" (click)="deleteEvent(e.eventId)">
+                <a href="#" (click)="deleteEvent(e)">
                   <span class="material-icons pull-right">close</span>
                 </a>
               </td>
@@ -80,13 +87,21 @@
     <div class="col-6">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title float-left"><span>Players</span></h5>
-          <button
-            class="btn btn-outline-primary ml-2 btn-sm"
-            type="button"
-            (click)="addPlayer()">
-            <span class="material-icons">add</span>
-          </button>
+          <div class="row">
+            <div class="col-3">
+              <h5 class="card-title float-left"><span>Players</span></h5>
+            </div>
+            <div class="col-auto">
+              <input tyoe="text" class="form-control" [(ngModel)]="newPlayer" />
+            </div>
+            <div class="col-auto">
+              <button
+              class="btn btn-outline-primary btn-sm "
+              type="button"
+              (click)="addPlayer()"><span class="material-icons">add</span>
+              </button>
+            </div>
+          </div>
           <table class="table table-sm">
             <tr
               style="cursor: pointer"
@@ -94,7 +109,7 @@
             >
               <td width="90%">{{ p.nick }}</td>
               <td>
-                <a href="#" (click)="deletePlayer(p.playerId)">
+                <a href="#" (click)="deletePlayer(p)">
                   <span class="material-icons pull-right">close</span>
                 </a>
               </td>
