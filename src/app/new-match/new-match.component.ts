@@ -22,18 +22,24 @@ export class NewMatchComponent {
 
   selectedSport: Sport | null
   selectedTournament: Tournament | null;
-  playersPerTeam: number;
+  playersPerTeam: number = 1;
+  availablePlayersPerTeam: number[] =[1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21,22];
   newPlayer:string = '';
  
   constructor(private modalService: NgbModal,public activeModal: NgbActiveModal, private DB: DBService) { }
 
   ngOnInit() {
+    //this.playersPerTeam = 1;
     this.sports = this.DB.getSports();
     if(this.sports.length > 0)
       this.selectSport(this.sports[0]);
   }
 
-
+  selectPlayersPerTeam(n:number){
+    this.playersPerTeam = n;
+    if(this.matchPlayers.length > n * 2)
+      this.matchPlayers.length = n * 2;
+  }
   selectSport(sport:Sport){
     this.selectedSport = sport;
     if(sport != null){
@@ -94,8 +100,10 @@ export class NewMatchComponent {
     this.matchPlayers.push(p);
   }
   
-  uncofirmPlayerRemovePlayer(i: number) {
-    this.matchPlayers.slice(i, 1);
+  unconfirmPlayer(p: Player) {
+    let idx = this.matchPlayers.findIndex(x=>x.playerId === p.playerId);
+    if(idx > -1 )
+      this.matchPlayers.splice(idx, 1);
   }
 
   btnConfirmNewMatchClick() {
