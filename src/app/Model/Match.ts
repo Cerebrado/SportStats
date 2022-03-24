@@ -1,27 +1,33 @@
-import { Helper } from "./helper";
+import { Helper } from "./Helper";
+import { Player } from "./Player";
+import { Event } from "./Event";
+
 
 export class Match {
   readonly date: string = new Helper().getDateAsString(false);
-  readonly matchId: string = new Helper().getDateAsString(true);
+  readonly matchId: string = new Helper().getGuid();
   readonly sportId: string;
   readonly tournamentId:string;
-  readonly playersPerTeam: number;
-  readonly playersEvents: PlayerEventPosition[] = [];
+  readonly players: Player[];
+  private events: PlayerEventPosition[] = [];
 
-  constructor(sportId: string, tournamentId: string, playersPerTeam: number){
+  constructor(sportId: string, tournamentId: string, players: Player[]){
     this.sportId = sportId;
     this.tournamentId = tournamentId;
-    this.playersPerTeam = playersPerTeam;
+    this.players = players;
+  }
+
+  getEvents():PlayerEventPosition[]{
+    return this.events;
+  }
+
+  setEvents(events: PlayerEventPosition[]){
+    this.events = events;
   }
 }
 
-export class PlayerEventPosition{
-  readonly playerId: string
-  readonly eventId: string
-
-  constructor(playerId:string, eventId:string){
-    this.playerId = playerId;
-    this.eventId = eventId;
-  }
+export interface  PlayerEventPosition{
+  player: Player
+  event: Event | null
 }
 

@@ -64,7 +64,7 @@ export class Helper {
   
   getDateAsString(includeMiliseconds: boolean):string {
     let date: Date = new Date();
-    let result =      
+    return (
       date.getFullYear().toString() +
       '-' +
       this.pad2(date.getMonth() + 1) +
@@ -75,16 +75,18 @@ export class Helper {
       ':' +
       this.pad2(date.getMinutes()) +
       ':' +
-      this.pad2(date.getSeconds());
-  
-      if(includeMiliseconds)
-        result = result + '.' +  this.pad3(date.getMilliseconds())
-
-      return result;
+      this.pad2(date.getSeconds()));
     }
   
     getGuid(){
-      return this.getDateAsString(true);
+      let date: Date = new Date();
+      return (
+        date.getFullYear().toString() +
+        this.pad2(date.getMonth() + 1) +
+        this.pad2(date.getDate()) +
+        this.pad2(date.getHours()) +
+        this.pad2(date.getMinutes()) +
+        this.pad2(date.getSeconds()) +
+        this.pad3(date.getMilliseconds()))
     }
-  
   }

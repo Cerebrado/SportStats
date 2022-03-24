@@ -3,7 +3,7 @@
       <br>
       <br>
       <br>
-      No current match. Start a <a href="#" (click)="btnShowNewMatchForm()">new one</a> 
+      No current match. Start a <a href="#" (click)="btnNewMatch()">new one</a> 
     </div>
 </div>
 
@@ -11,42 +11,26 @@
    <div class="row" *ngIf="Match != null" >
     <div class="col-4">
       <div class="list-group btn-group">
-        <ng-template
-          let-t
-          ngFor
-          [ngForOf]="Match?.Teams"
-          let-i="index"
-        >
-          <ng-template let-p ngFor [ngForOf]="t.Players">
-            <label
+            <label *ngFor="let p of players; let i = index"
               (click)="clickPlayer(p)"
               class="btn p-4 mt-3"
-              [ngClass]="i == 0 ? 'btn-info' : 'btn-success'"
-            >
-              {{ p.Nick }} &nbsp;
-
-              <!-- <span
-                *ngIf="Match.ServiceIndex == p.ServiceOrder"
-                class="badge bg-white badge-pill"
-              >.</span> -->
+              [ngClass]="i < (players.length / 2) ? 'btn-info' : 'btn-success'">
+              {{ p.nick }} {{i}}
           </label>
-          </ng-template>
-        </ng-template>
       </div>
     </div>
 
     <div class="col-8">
+
       <div class="row" *ngFor="let kv of PlayEventsByValue | keyvalue : asIsOrder">
         <div class="btn-group">
           <label class="btn p-4 mt-3 mr-4" style="margin-right: 1em" *ngFor="let v of kv.value"
           [ngClass]="{'btn-primary': kv.key == 1, 'btn-warning' : kv.key == 0, 'btn-danger': kv.key == -1  }"
           (click) = "clickEvent(v)"
           >
-            {{ v.Short }}
+            {{ v.short }}
           </label>
         </div>
-      </div>
-      
     </div>
   </div>
 
@@ -58,8 +42,8 @@
     </div>
     <div class="col-9 border border-primary"> 
       <span *ngFor="let s of StatEntries">
-        <span class="badge bg-dark fs-5"> {{s.Player.Nick}} </span>
-        <span class="badge bg-dark fs-5" *ngIf="s.PlayEvent != null"> {{s.PlayEvent.Short}} </span>
+        <span class="badge bg-dark fs-5"> {{s.player.nick}} </span>
+        <span class="badge bg-dark fs-5" *ngIf="s.event != null"> {{s.event.short}} </span>
         &nbsp;&nbsp;&nbsp;
       </span>
       &nbsp; 

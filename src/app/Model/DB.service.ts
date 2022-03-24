@@ -14,8 +14,6 @@ export class DBService {
   private eventsTable :string =  '3TStats.Events';
   private tournamentesTable :string =  '3TStats.Tournaments';
   private playersTable :string =  '3TStats.Players';
-  private currentMatchTable :string =  '3TStats.CurrentMatch';
-  private historyTable :string =  '3TStats.HistoryMatch';
   
   
   private _sports: Sport[] = [];
@@ -24,8 +22,7 @@ export class DBService {
   private _players: Player[] = [];
 
   constructor() {
-      let storageData: string
-      storageData = localStorage.getItem(this.sportsTable);
+      let storageData = localStorage.getItem(this.sportsTable);
       if(storageData != null) {
           this._sports =  JSON.parse(storageData) as Sport[];
       }
@@ -50,6 +47,10 @@ export class DBService {
       return this._sports;
   }
 
+    getSport(sportId:string): Sport{
+        return this._sports.find(x=>x.sportId === sportId);
+    }
+
   addSport(sport: Sport): Sport[]{
       this._sports.push(sport);
       this.save(this.sportsTable);
@@ -69,6 +70,10 @@ export class DBService {
 
   getEvents(sportId:string):Event[]{
       return this._events.filter(x=>x.sportId === sportId);
+  }
+
+  getEvent(sportId:string, eventId:string): Event{
+      return this.getEvents(sportId).find(x=>x.eventId === eventId);
   }
 
   addEvent(event: Event):Event[] {
@@ -96,6 +101,10 @@ export class DBService {
 
   getTournaments(sportId: string): Tournament[]{
       return this._tournaments.filter(x=>x.sportId === sportId);
+  }
+
+  getTournament(sportId:string, tournamentId:string): Tournament{
+    return this.getTournaments(sportId).find(x=>x.tournamentId === tournamentId);
   }
 
   addTournament(tournament: Tournament): Tournament[] {

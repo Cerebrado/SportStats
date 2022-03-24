@@ -8,77 +8,67 @@
       Please, <a href="#" (click)="SignIn()">sign in</a>
   </div>
 </div>
-
-<div *ngIf="User != null">  -->
-
-<new-match></new-match>
-  <!-- <div>
+-->
   <nav class="navbar navbar-dark bg-dark sticky-top">
     <a class="navbar-brand" href="#">Stats</a>
-    <form class="form" *ngIf="Match != null">
+    <form class="form">
       <button
         class="btn btn-outline-success"
         type="button"
-        (click)="btnShowNewMatchForm()"
-      >
-        <span class="material-icons">save</span>
+        (click)="btnNewMatch()">
+          <span class="material-icons">flag</span>
       </button>
-      <span class="badge bg-dark" >Started: {{Match.Name}}</span>
-      <button
+      
+      <span class="badge bg-dark" *ngIf="match!=null" >Started: {{match.date}}</span>
+      
+      <button *ngIf="match!=null"
         class="btn btn-outline-success"
         type="button"
-        (click)="btnCancelCurrentMatch()"
-      >
-        <span class="material-icons">cancel</span>
+        (click)="btnCancelMatch()">
+          <span class="material-icons">cancel</span>
       </button>
     </form>
 
     <form class="form-inline">
-      <button
+      <button *ngIf="match!=null"
         class="btn btn-outline-success"
         type="button"
         (click)="setMenuOption(1)"
-        *ngIf="User != null"
       >
-        <span class="material-icons">sports_tennis</span>
+        <span class="material-icons">local_activity</span>
       </button>
-      <button
+      <button 
         class="btn btn-outline-success ml-3"
         type="button"
         (click)="setMenuOption(2)"
-        *ngIf="User != null"
       >
         <span class="material-icons">leaderboard</span>
       </button>
-      <button
+      <button 
         class="btn btn-outline-success ml-3"
         type="button"
-        (click)="setMenuOption(3)"
-        *ngIf="User != null"
-      >
-        <span class="material-icons">settings</span>
+        (click)="setMenuOption(3)">
+         <span class="material-icons">settings</span>
       </button>
-      <button
-      class="btn btn-outline-success ml-3"
-      type="button"
-      (click)="SignIn()"
-      *ngIf="User == null"
-      >
-      <span class="material-icons">person</span>
+  
+      <!-- <button
+        class="btn btn-outline-success ml-3"
+        type="button"
+        (click)="SignIn()"
+        *ngIf="User == null">
+        <span class="material-icons">person</span>
       </button>
       <span class="text-success  ml-3" *ngIf="User != null">{{ User.getBasicProfile().getEmail()}} </span>
       <button
-      class="btn btn-outline-success ml-3"
-      type="button"
-      (click)="SignOut()"
-      *ngIf="User != null"
-      >
-      <span class="material-icons">person_off</span>
-      </button>
+        class="btn btn-outline-success ml-3"
+        type="button"
+        (click)="SignOut()"
+        *ngIf="User != null">
+        <span class="material-icons">person_off</span>
+      </button> -->
     </form>
   </nav>
   <match *ngIf="menuOption == 1"></match>
   <statistics *ngIf="menuOption == 2"></statistics>
   <settings *ngIf="menuOption == 3"></settings>
-  <div echarts class="demo-chart" [options]="chartOption"></div> 
-</div> -->
+  <!-- <div echarts class="demo-chart" [options]="chartOption"></div>  -->

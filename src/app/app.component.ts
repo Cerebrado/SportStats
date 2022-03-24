@@ -1,9 +1,13 @@
 import { Component, OnInit } from "@angular/core";
+import { MatchService } from "./Model/Match.service";
 
+import { Match } from './Model/Match';
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NewMatchComponent } from "./new-match/new-match.component";
 // import { ChangeDetectorRef, Component, OnInit} from '@angular/core';
+
 // import { GoogleSigninService } from 'src/app/Model/google-signin.service';
-// import { MatchService } from './Model/Match';
-// import { Match } from './Model/model';
+
 // import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // import { NewMatchComponent } from './new-match/new-match.component';
 // import { EChartsOption } from 'echarts/types/dist/echarts';
@@ -17,31 +21,40 @@ import { Component, OnInit } from "@angular/core";
   //providers:[GoogleSigninService]
 })
 export class AppComponent  implements OnInit {
-  User : gapi.auth2.GoogleUser;
- 
-  // chartOption: EChartsOption = {
-  //   xAxis: {
-  //     type: 'category',
-  //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  //   },
-  //   yAxis: {
-  //     type: 'value',
-  //   },
-  //   series: [
-  //     {
-  //       data: [820, 932, 901, 934, 1290, 1330, 1320],
-  //       type: 'line',
-  //     },
-  //   ],
-  //};
-
-  constructor(){}
-
-
+  //User : gapi.auth2.GoogleUser;
+  menuOption: number = 1
+  match: Match | null;
+  
+  constructor(private modalService: NgbModal, private matchSvc: MatchService){
+    this.matchSvc.current.subscribe(match => {
+      this.match = match;
+    });
+  }
   
   ngOnInit() {
     // console.log('Executing AppComponent.ngOnInit')    
     // this.SignIn();
+  }
+
+  setMenuOption(menuOption: number){
+    this.menuOption = menuOption;
+  }
+
+  btnNewMatch(){
+    const modal = this.modalService.open(NewMatchComponent, {size:'xl'});
+    modal.result
+      .then((result:Match) => {
+        this.matchSvc.setNewMatch(result);
+      }).catch(
+        (reason: any) => { if(reason != 0) console.log(reason)}
+      );
+
+  }
+
+  btnCancelMatch(){
+    if(confirm('Va a cancelar el match actual con ' + this.match?.getEvents().length + ' eventos. Continua?')){
+      this.matchSvc.setNewMatch(null);
+    }
   }
 
   // SignIn(){
@@ -54,10 +67,6 @@ export class AppComponent  implements OnInit {
   //   this.cdRef.detectChanges();
   // }
 
-
-  // setMenuOption(menuOption: number){
-  //   this.menuOption = menuOption;
-  // }
 
   // btnSaveMatch() {
   //   this.matchService.saveAndclose();
@@ -76,4 +85,20 @@ export class AppComponent  implements OnInit {
   //     this.matchService.cancel();
   // }
   
+  // chartOption: EChartsOption = {
+  //   xAxis: {
+  //     type: 'category',
+  //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  //   },
+  //   yAxis: {
+  //     type: 'value',
+  //   },
+  //   series: [
+  //     {
+  //       data: [820, 932, 901, 934, 1290, 1330, 1320],
+  //       type: 'line',
+  //     },
+  //   ],
+  //};
+
 }

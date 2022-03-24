@@ -12,7 +12,7 @@ import { NewEventComponent } from './new-event/new-event.component';
 import { NewSportComponent } from './new-sport/new-sport.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NewMatchComponent } from './new-match/new-match.component';
-// import { MatchComponent } from './match/match.component';
+import { MatchComponent } from './match/match.component';
 
 // import { StatisticsComponent } from './statistics/statistics.component';
 // import { EventHistoryChartComponent } from './event-history-chart/event-history-chart.component';
@@ -31,7 +31,7 @@ import { NewMatchComponent } from './new-match/new-match.component';
     NewSportComponent,
     SettingsComponent,
     NewMatchComponent,
-    // MatchComponent,
+    MatchComponent,
     
     // StatisticsComponent,
     // EventHistoryChartComponent,
