@@ -1,59 +1,71 @@
-<div class="d-flex align-items-center justify-content-center" *ngIf="Match == null">
-    <div>
+<div class="d-flex align-items-center justify-content-center" >
+  <div style="width: 98vw; height: 83vh">
+    <div *ngIf="Match == null">
       <br>
       <br>
       <br>
       No current match. Start a <a href="#" (click)="btnNewMatch()">new one</a> 
     </div>
-</div>
 
-<div class="container">
-   <div class="row" *ngIf="Match != null" >
-    <div class="col-4">
-      <div class="list-group btn-group">
-            <label *ngFor="let p of players; let i = index"
-              (click)="clickPlayer(p)"
-              class="btn p-4 mt-3"
-              [ngClass]="i < (players.length / 2) ? 'btn-info' : 'btn-success'">
-              {{ p.nick }} {{i}}
-          </label>
+    <div class="row" >
+      <div [ngClass]="players.length < 5 ?'col-4':'col-2'">
+        <div style="height:75vh; overflow-y:scroll">
+            <div *ngFor="let p of players; let i = index"> 
+              <label  
+                *ngIf="players.length < 5 || i < (players.length /2)"
+                [ngClass]="calculateplayerClass(i)"
+                (click)="clickPlayer(p)">
+                {{ p.nick }} {{i}}
+              </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-2" *ngIf="players.length > 4">
+        <div style="height:75vh; overflow-y:scroll">
+            <div *ngFor="let p of players; let i = index"> 
+              <label 
+                *ngIf="i >= (players.length /2)"
+                [ngClass]="calculateplayerClass(i)"
+                (click)="clickPlayer(p)">
+                {{ p.nick }} {{i}}
+              </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-8">
+        <div class="row" *ngFor="let kv of PlayEventsByValue | keyvalue : asIsOrder">
+          <div class="btn-group">
+            <label class="btn p-4 my-2 mx-1" style="margin-right: 1em" *ngFor="let v of kv.value"
+            [ngClass]="{'btn-primary': kv.key == 1, 'btn-warning' : kv.key == 0, 'btn-danger': kv.key == -1  }"
+            (click) = "clickEvent(v)"
+            >
+              {{ v.short }}
+            </label>
+          </div>
       </div>
     </div>
 
-    <div class="col-8">
-
-      <div class="row" *ngFor="let kv of PlayEventsByValue | keyvalue : asIsOrder">
-        <div class="btn-group">
-          <label class="btn p-4 mt-3 mr-4" style="margin-right: 1em" *ngFor="let v of kv.value"
-          [ngClass]="{'btn-primary': kv.key == 1, 'btn-warning' : kv.key == 0, 'btn-danger': kv.key == -1  }"
-          (click) = "clickEvent(v)"
-          >
-            {{ v.short }}
-          </label>
-        </div>
+    <div class="row mt-2 mb-1 align-items-center">
+      <div class="col-1">
+        <button class="btn btn-secondary btn-block" type="button" (click)="btnUndoClick()">
+          <span class="material-icons">undo</span>
+        </button>
+      </div>
+      <div class="col-9 border border-primary"> 
+        <span *ngFor="let s of StatEntries">
+          <span class="badge bg-dark fs-5"> {{s.player.nick}} </span>
+          <span class="badge bg-dark fs-5" *ngIf="s.event != null"> {{s.event.short}} </span>
+          &nbsp;&nbsp;&nbsp;
+        </span>
+        &nbsp; 
+      </div>
+      <div class="col-2 btn-group">
+        <button class="btn btn-dark btn-block" type="button" (click)="btnConfirmClick()">
+          <span class="material-icons">check</span>
+        </button>
+      </div>
     </div>
   </div>
-
-  <div class="row mt-4 align-items-center" *ngIf="Match != null" >
-    <div class="col-1">
-      <button class="btn btn-secondary btn-block" type="button" (click)="btnUndoClick()">
-        <span class="material-icons">undo</span>
-      </button>
-    </div>
-    <div class="col-9 border border-primary"> 
-      <span *ngFor="let s of StatEntries">
-        <span class="badge bg-dark fs-5"> {{s.player.nick}} </span>
-        <span class="badge bg-dark fs-5" *ngIf="s.event != null"> {{s.event.short}} </span>
-        &nbsp;&nbsp;&nbsp;
-      </span>
-      &nbsp; 
-    </div>
-    <div class="col-2 btn-group">
-      <button class="btn btn-dark btn-block" type="button" (click)="btnConfirmClick()">
-        <span class="material-icons">check</span>
-      </button>
-    </div>
-  </div>
-
-
 </div>

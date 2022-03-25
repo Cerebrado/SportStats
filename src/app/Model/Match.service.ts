@@ -23,27 +23,26 @@ export class MatchService {
     if(storageData != null) {
       this._current = JSON.parse(storageData) as Match;
     }
-    setTimeout(() => 
-    {
-      this._subject.next(this._current);
-    }, 500);
+    // setTimeout(() => 
+    // {
+    //   this._subject.next(this._current);
+    // }, 500);
 
   }
 
   setNewMatch(match:Match|null) {
-    if(match == null){
-      return;
-    }
     if(this._current != null)      {
-        this.setCurrentMatchAsHistory();
+      this.setCurrentMatchAsHistory();
     }
     this._current = match;
-    this.saveCurrent();
+    if(match == null){
+      this.saveCurrent();  
+    }
   }
 
-  // getCurrent():Match{
-  //   return this._subject;
-  // }
+   getCurrent():Match{
+     return this._current;
+   }
 
   addEvents(events: PlayerEventPosition[]){
     this._current.setEvents([...this._current.getEvents(),  ...events]);
@@ -51,7 +50,7 @@ export class MatchService {
   }
 
   saveCurrent(){
-    this._subject.next(this._current)
+    //this._subject.next(this._current)
     if(this._current == null)
       return;
     let table = this.currentMatchTable;

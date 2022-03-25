@@ -9,9 +9,11 @@
   </div>
 </div>
 -->
-  <nav class="navbar navbar-dark bg-dark sticky-top">
-    <a class="navbar-brand" href="#">Stats</a>
-    <form class="form">
+  <nav class="navbar bg-dark px-2" style="height: 15vh">
+    <span class="navbar-text navbar-brand text-white">
+      Stats
+    </span>
+    <form class="form-inline mt-2 mr-3">
       <button
         class="btn btn-outline-success"
         type="button"
@@ -28,14 +30,13 @@
           <span class="material-icons">cancel</span>
       </button>
     </form>
-
-    <form class="form-inline">
+    <form class="form-inline mt-2">
       <button *ngIf="match!=null"
         class="btn btn-outline-success"
         type="button"
         (click)="setMenuOption(1)"
       >
-        <span class="material-icons">local_activity</span>
+        <span class="material-icons">sports_esports</span>
       </button>
       <button 
         class="btn btn-outline-success ml-3"

@@ -30,17 +30,21 @@ export class MatchComponent implements OnInit {
   
   PlayEventsByValue: Map<number, Event[]> = new Map<number, Event[]>();
   ngOnInit() {
-    this.matchSvc.current.subscribe(match => {
-      this.Match = match;
+    this.Match = this.matchSvc.getCurrent();
+    if(this.Match != null){
       this.DB.getEvents(this.Match.sportId)
-      .sort((a,b) => a.value < b.value? 1: 0).forEach(e => {
-        if(! this.PlayEventsByValue.has(e.value))
-          this.PlayEventsByValue.set(e.value, new Array<Event>());
-        this.PlayEventsByValue.get(e.value).push(e);
+        .sort((a,b) => a.value < b.value? 1: 0).forEach(e => {
+          if(! this.PlayEventsByValue.has(e.value))
+            this.PlayEventsByValue.set(e.value, new Array<Event>());
+          this.PlayEventsByValue.get(e.value).push(e);
       });
       this.players = this.Match.players;
-    });
+      
+      //TO TEST SIZES
+      for(let i=0; i<0;i++)
+        this.players.push(new Player(this.Match.tournamentId, 'xxxxx xxxxx'));
 
+    }
   }
 
   clickPlayer(player:Player){
@@ -84,4 +88,10 @@ export class MatchComponent implements OnInit {
     );
   }
 
+  calculateplayerClass(i:number){
+    return 'btn w-100 my-1 ' +
+           (i < (this.players.length / 2) ? 'btn-info' : 'btn-success') + ' ' +
+           (this.players.length < 5 ? 'p-4' : (this.players.length < 11? 'p-3' : 'p-2')) 
+           // + ' ' + (this.players.length < 5 ? 'mt-3' : 'mt-2') 
+  }
 }

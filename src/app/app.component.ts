@@ -25,15 +25,11 @@ export class AppComponent  implements OnInit {
   menuOption: number = 1
   match: Match | null;
   
-  constructor(private modalService: NgbModal, private matchSvc: MatchService){
-    this.matchSvc.current.subscribe(match => {
-      this.match = match;
-    });
-  }
+  constructor(private modalService: NgbModal, private matchSvc: MatchService){}
   
   ngOnInit() {
-    // console.log('Executing AppComponent.ngOnInit')    
     // this.SignIn();
+    this.match = this.matchSvc.getCurrent();
   }
 
   setMenuOption(menuOption: number){

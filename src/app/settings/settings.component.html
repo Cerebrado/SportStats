@@ -66,21 +66,20 @@
               </button>
             </div>
           </div>
-          <table class="table table-sm">
-            <tr
-              style="cursor: pointer"
-              *ngFor="let e of events"
-            >
-              <td width="30%">{{ e.short }}</td>
-              <td width="60%">{{ e.long }}</td>
-              <td width="5%">{{ e.value }}</td>
-              <td>
-                <a href="#" (click)="deleteEvent(e)">
-                  <span class="material-icons pull-right">close</span>
-                </a>
-              </td>
-            </tr>
-          </table>
+          <div  style="height:50vh; overflow-y:scroll">
+            <table class="table table-sm">
+              <tr style="cursor: pointer" *ngFor="let e of events">
+                <td width="30%">{{ e.short }}</td>
+                <td width="60%">{{ e.long }}</td>
+                <td width="5%">{{ e.value }}</td>
+                <td>
+                  <a href="#" (click)="deleteEvent(e)">
+                    <span class="material-icons pull-right">close</span>
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -102,19 +101,21 @@
               </button>
             </div>
           </div>
-          <table class="table table-sm">
-            <tr
-              style="cursor: pointer"
-              *ngFor="let p of players"
-            >
-              <td width="90%">{{ p.nick }}</td>
-              <td>
-                <a href="#" (click)="deletePlayer(p)">
-                  <span class="material-icons pull-right">close</span>
-                </a>
-              </td>
-            </tr>
-          </table>
+          <div  style="height:50vh; overflow-y:scroll">
+            <table class="table table-sm">
+              <tr
+                style="cursor: pointer"
+                *ngFor="let p of players"
+              >
+                <td width="90%">{{ p.nick }}</td>
+                <td>
+                  <a href="#" (click)="deletePlayer(p)">
+                    <span class="material-icons pull-right">close</span>
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </div> 
         </div>
       </div>
     </div> 
