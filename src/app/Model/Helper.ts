@@ -1,3 +1,4 @@
+import { Injectable, Pipe, PipeTransform } from "@angular/core";
 import { NgbCarouselModule } from "@ng-bootstrap/ng-bootstrap";
 
 export class Helper {
@@ -90,3 +91,15 @@ export class Helper {
         this.pad3(date.getMilliseconds()))
     }
   }
+
+  @Pipe({
+    name: 'filterByNumber'
+  })
+  @Injectable()
+  export class FilterByNumberPipe implements PipeTransform {
+    transform(items: any[], field : string, value : number): any[] {  
+      return items.filter(it => 
+      it[field] == value);
+    }
+  }
+  

@@ -35,16 +35,15 @@
       </div>
 
       <div class="col-8">
-        <div class="row" *ngFor="let kv of PlayEventsByValue | keyvalue : asIsOrder">
-          <div class="btn-group">
-            <label class="btn p-4 my-2 mx-1" style="margin-right: 1em" *ngFor="let v of kv.value"
-            [ngClass]="{'btn-primary': kv.key == 1, 'btn-warning' : kv.key == 0, 'btn-danger': kv.key == -1  }"
-            (click) = "clickEvent(v)"
-            >
-              {{ v.short }}
+        <div class="row" *ngFor="let i of [1,0,-1]">
+          <div class="col-3" *ngFor="let e of events | filterByNumber : 'value' : i">
+            <label class="btn p-3 my-1 w-100"
+              [ngClass]="{'btn-primary': i == 1, 'btn-warning' : i == 0, 'btn-danger': i == -1  }"
+              (click) = "clickEvent(e)">
+                {{ e.short }} 
             </label>
           </div>
-      </div>
+        </div>
     </div>
 
     <div class="row mt-2 mb-1 align-items-center">
