@@ -1,8 +1,32 @@
-<event-history-chart></event-history-chart>
-
-<div *ngFor="let kv of EventByMatchesWithPlayersCount | keyvalue">
-    <event-history-chart 
-        [EventName]="kv.key"
-        [MatchesWithPlayersCount]="kv.value"
-    ></event-history-chart>
+<div class="container">
+  <div class="row mt-2">
+    <div class="col-6">
+      <p class="input-group">
+        <label class="input-group-text">Sport: </label>
+        <select class="form-control" [ngModel]="selectedSport" (ngModelChange)="onSportSelected($event)">
+          <option *ngFor="let s of sports" [ngValue]="s">{{s.name}}</option>
+        </select>
+      </p>
+    </div>
+    <div class="col-6">
+      <p class="input-group">
+        <label class="input-group-text">Tournament: </label>
+        <select class="form-control" [ngModel]="selectedTournament" (ngModelChange)="onTournamentSelected($event)">
+          <option value="null" selected>All</option>
+          <option *ngFor="let t of tournaments" [ngValue]="t">{{t.name}}</option>
+        </select>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6" *ngFor="let kv of EventByMatchesWithPlayersCount | keyvalue">
+        {{kv.key}}
+        <event-history-chart 
+            [EventName]="kv.key"
+            [MatchesWithPlayersCount]="kv.value"
+        ></event-history-chart>
+    </div>
+    
+  </div>
 </div>
+

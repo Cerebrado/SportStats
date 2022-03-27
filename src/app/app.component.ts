@@ -24,7 +24,7 @@ import { timestamp } from "rxjs";
 })
 export class AppComponent  implements OnInit {
   //User : gapi.auth2.GoogleUser;
-  menuOption: number = 1
+  menuOption: number = 2
   match: Match | null;
   
   constructor(private modalService: NgbModal, private matchSvc: MatchService){}

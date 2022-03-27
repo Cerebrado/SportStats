@@ -59,7 +59,7 @@ export class MatchService {
     
     let matches: Match[] = this.getHistory(this._current.sportId);
     matches.push(this._current);
-    localStorage.setItem(this.historyTable, JSON.stringify(matches));
+    localStorage.setItem(this.historyTable+'.'+this._current.sportId , JSON.stringify(matches));
   }
 
   getHistory(sportId: string):Match[]{

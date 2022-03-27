@@ -2,7 +2,7 @@ import { Helper } from "./Helper";
 import { Player } from "./Player";
 
 export class Tournament {
-    readonly tournamentId: string = new Helper().getDateAsString(false);
+    readonly tournamentId: string = new Helper().getGuid();
     readonly sportId: string;
     readonly name: string;
     
