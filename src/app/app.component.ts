@@ -4,6 +4,8 @@ import { MatchService } from "./Model/Match.service";
 import { Match } from './Model/Match';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NewMatchComponent } from "./new-match/new-match.component";
+import { renderFlagCheckIfStmt } from "@angular/compiler/src/render3/view/template";
+import { timestamp } from "rxjs";
 // import { ChangeDetectorRef, Component, OnInit} from '@angular/core';
 
 // import { GoogleSigninService } from 'src/app/Model/google-signin.service';
@@ -41,6 +43,8 @@ export class AppComponent  implements OnInit {
     modal.result
       .then((result:Match) => {
         this.matchSvc.setNewMatch(result);
+        this.match = result;
+        this.setMenuOption(1);
       }).catch(
         (reason: any) => { if(reason != 0) console.log(reason)}
       );
@@ -50,6 +54,7 @@ export class AppComponent  implements OnInit {
   btnCancelMatch(){
     if(confirm('Va a cancelar el match actual con ' + this.match?.getEvents().length + ' eventos. Continua?')){
       this.matchSvc.setNewMatch(null);
+      this.setMenuOption(1);
     }
   }
 

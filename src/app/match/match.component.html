@@ -1,13 +1,6 @@
 <div class="d-flex align-items-center justify-content-center" >
   <div style="width: 98vw; height: 83vh">
-    <div *ngIf="Match == null">
-      <br>
-      <br>
-      <br>
-      No current match. Start a <a href="#" (click)="btnNewMatch()">new one</a> 
-    </div>
-
-    <div class="row" >
+    <div class="row" *ngIf="Match != null">
       <div [ngClass]="players.length < 5 ?'col-4':'col-2'">
         <div style="height:75vh; overflow-y:scroll">
             <div *ngFor="let p of players; let i = index"> 
@@ -15,7 +8,7 @@
                 *ngIf="players.length < 5 || i < (players.length /2)"
                 [ngClass]="calculateplayerClass(i)"
                 (click)="clickPlayer(p)">
-                {{ p.nick }} {{i}}
+                {{ p.nick }}
               </label>
           </div>
         </div>
@@ -28,17 +21,17 @@
                 *ngIf="i >= (players.length /2)"
                 [ngClass]="calculateplayerClass(i)"
                 (click)="clickPlayer(p)">
-                {{ p.nick }} {{i}}
+                {{ p.nick }} 
               </label>
           </div>
         </div>
       </div>
 
       <div class="col-8">
-        <div class="row" *ngFor="let i of [1,0,-1]">
+        <div class="row" *ngFor="let i of ['1','0','-1']">
           <div class="col-3" *ngFor="let e of events | filterByNumber : 'value' : i">
             <label class="btn p-3 my-1 w-100"
-              [ngClass]="{'btn-primary': i == 1, 'btn-warning' : i == 0, 'btn-danger': i == -1  }"
+              [ngClass]="calculateEventClass(i)"
               (click) = "clickEvent(e)">
                 {{ e.short }} 
             </label>

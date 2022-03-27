@@ -5,9 +5,9 @@ export class Event {
     eventId: string = new Helper().getGuid();
     short: string;
     long: string;
-    value: number;
+    value: string;
   
-    constructor(sportId:string, short: string, long: string, value: number) {
+    constructor(sportId:string, short: string, long: string, value: string) {
       this.sportId = sportId
       this.short = short;
       this.long = long;

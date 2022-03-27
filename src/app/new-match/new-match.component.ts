@@ -26,7 +26,6 @@ export class NewMatchComponent {
   constructor(private modalService: NgbModal,public activeModal: NgbActiveModal, private DB: DBService) { }
 
   ngOnInit() {
-    //this.playersPerTeam = 1;
     this.sports = this.DB.getSports();
     if(this.sports.length > 0)
       this.selectSport(this.sports[0]);
@@ -54,6 +53,7 @@ export class NewMatchComponent {
       this.players = [];
     }
   }
+
 
   selectPlayersPerTeam(n:number){
     this.playersPerTeam = n;
@@ -90,8 +90,8 @@ export class NewMatchComponent {
     if(this.matchPlayers.length == this.playersPerTeam * 2)
       return;
     
-      if(this.matchPlayers.some(x=>x.playerId == p.playerId)){
-      alert(p.nick + ' no puede jugar en dos equipos (no es tan bueno).')
+    if(this.matchPlayers.some(x=>x.playerId == p.playerId)){
+      alert(p.nick + ' ya fue agregado y no puede jugar por dos. No es tan bueno.')
       return;
     }
 

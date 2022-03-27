@@ -1,3 +1,4 @@
+import { ReturnStatement } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Match, PlayerEventPosition } from './Match';
@@ -35,9 +36,7 @@ export class MatchService {
       this.setCurrentMatchAsHistory();
     }
     this._current = match;
-    if(match == null){
-      this.saveCurrent();  
-    }
+    this.saveCurrent();  
   }
 
    getCurrent():Match{
@@ -52,25 +51,21 @@ export class MatchService {
   saveCurrent(){
     //this._subject.next(this._current)
     if(this._current == null)
-      return;
-    let table = this.currentMatchTable;
-    localStorage.setItem(table, JSON.stringify(this._current));
+        return; 
+      localStorage.setItem(this.currentMatchTable, JSON.stringify(this._current));
   }
 
   private setCurrentMatchAsHistory() {
-    let matches: Match[];
-    let table = this.historyTable;
-    let storageData = localStorage.getItem(table);
-    if(storageData != null) {
-         matches = JSON.parse(storageData) as Match[];
-    }
+    if(this._current == null)
+      return;
+    let matches: Match[] = this.getHistory(this._current.sportId);
     matches.push(this._current);
-    localStorage.setItem(table, JSON.stringify(matches));
+    localStorage.setItem(this.historyTable, JSON.stringify(matches));
   }
 
-  getHistory(sport: Sport):Match[]{
-    let matches: Match[];
-    let table = this.historyTable + '.' + sport.sportId;
+  getHistory(sportId: string):Match[]{
+    let matches: Match[] = [];
+    let table = this.historyTable + '.' + sportId;
     let storageData = localStorage.getItem(table);
     if(storageData != null) {
          matches = JSON.parse(storageData) as Match[];

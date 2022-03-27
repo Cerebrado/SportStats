@@ -13,13 +13,13 @@ export class NewEventComponent {
 
   Short: string = '';
   Long: string = '';
-  Value: number= 0;
+  Value: string = "0";
   sportId:string;
 
   btnSaveNewEventClick() {
     if(this.Short == '' )
     {
-      alert("Short and Long must be entered");
+      alert("Short must be entered");
       return;
     }
     const playEvent = new Event(this.sportId, this.Short, this.Long, this.Value);

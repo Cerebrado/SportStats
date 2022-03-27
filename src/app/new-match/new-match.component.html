@@ -1,78 +1,94 @@
-<div class="modal-header">
-  <h5>New Match</h5>
-</div>
-
-<div class="modal-body container-fluid">
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-auto">
-      <label>Sport: &nbsp;</label> 
-    </div>
-    <div class="col-3">
-      <select class="form-control" [ngModel]="selectedSport" (ngModelChange)="selectSport($event)">
-        <option *ngFor="let s of sports" [ngValue]="s">{{s.name}}</option>
-      </select>
-    </div>
-    <div class="col-auto">
-      <label>Tournament: &nbsp;</label>
-    </div>
-    <div class="col-2">
-      <select class="form-control" [ngModel]="selectedTournament" (ngModelChange)="selectTournament($event)" >
-        <option *ngFor="let t of tournaments" [ngValue]="t">{{t.name}}</option>
-      </select>
-    </div>
-    <div class="col-auto">
-      <label>Players Per Team: &nbsp;</label>
-    </div>
-    <div class="col-1">
-      <select class="form-control" [ngModel]="playersPerTeam" (ngModelChange)="selectPlayersPerTeam($event)">
-        <option *ngFor="let t of availablePlayersPerTeam" [ngValue]="t">{{t}}</option>
-      </select>
-    </div>
+  <div class="modal-header">
+    <h5>New Match</h5>
   </div>
-  <div class="row mt-3">
-    <div class="col-4">
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-auto">
-              <span>Players</span>
-            </div>
-            <div class="col-6">
-              <input type="text" class="form-control" [(ngModel)]="newPlayer" />
-            </div>
-            <div class="col-1">
-              <button
-              class="btn btn-outline-primary btn-sm "
-              type="button"
-              (click)="addPlayer()"><span class="material-icons">add</span>
-              </button>
-            </div>
+  <div class="modal-body" style="height:60vh">
+    <div class="row">
+      <div class="col-auto">
+        <p class="input-group">
+          <label>Sport: &nbsp;</label>       
+          <select class="form-control" [ngModel]="selectedSport" (ngModelChange)="selectSport($event)">
+            <option *ngFor="let s of sports" [ngValue]="s">{{s.name}}</option>
+          </select>
+        </p>
+      </div>
+      <div class="col-auto">
+        <p class="input-group">
+          <label>Tournament: &nbsp;</label>
+          <select class="form-control" [ngModel]="selectedTournament" (ngModelChange)="selectTournament($event)" >
+            <option *ngFor="let t of tournaments" [ngValue]="t">{{t.name}}</option>
+          </select>
+        </p>
+      </div>
+      <div class="col-auto">
+        <p class="input-group">
+          <label>Players Per Team: &nbsp;</label>
+          <select class="form-control" [ngModel]="playersPerTeam" (ngModelChange)="selectPlayersPerTeam($event)">
+            <option *ngFor="let t of availablePlayersPerTeam" [ngValue]="t">{{t}}</option>
+          </select>
+        </p>
+      </div>
+      <div class="col-auto">
+        <div class="input-group">
+          <input type="text" class="form-control" [(ngModel)]="newPlayer" placeholder="Enter new player" />
+          <button
+          class="btn btn-outline-primary btn-sm "
+          type="button"
+          (click)="addPlayer()"><span class="material-icons">add</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-4">
+        <div class="card">
+          <div class="card-header">
+            Available
           </div>
-          <table class="table table-sm">
-            <tr
-              style="cursor: pointer"
-              *ngFor="let p of players"
-            >
-              <td width="90%">{{ p.nick }}</td>
+          <div class="card-body" style="height:30vh; overflow-y:scroll">
+            <table class="table table-sm">
+              <tr
+                style="cursor: pointer"
+                *ngFor="let p of players"
+                (click)="confirmPlayer(p)"
+              >
+                <td width="90%">{{ p.nick }}</td>
+                <td>
+                  <a href="#">
+                    <span class="material-icons pull-right">arrow_right</span>
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card-header">
+          Team A
+        </div>
+        <div class="card-body"  style="height:30vh; overflow-y:scroll">
+          <table class="table-sm">
+            <tr *ngFor="let p of matchPlayers | slice: 0:playersPerTeam; let i=index">
+              <td class="pr-1"><span>{{i + 1}}</span></td>
+              <td width="85%">{{p.nick}} </td>
               <td>
-                <a href="#" (click)="confirmPlayer(p)">
-                  <span class="material-icons pull-right">arrow_right</span>
+                <a href="#" (click)="unconfirmPlayer(p)">
+                  <span class="material-icons pull-right">cancel</span>
                 </a>
               </td>
             </tr>
           </table>
         </div>
       </div>
-    </div>
-    <div class="col-4">
-      <div class="card-header">
-        Team A
-      </div>
-      <div class="card-body">
-        <table class="table-sm">
-          <tr *ngFor="let p of matchPlayers | slice: 0:playersPerTeam">
-            <td width="90%"> {{p.nick}} </td>
+      <div class="col-4" style="height:30vh; overflow-y:scroll">
+        <div class="card-header">
+          Team B
+        </div>
+        <div class="card-body" style="height:30vh; overflow-y:scroll">
+          <table class="table-sm">
+            <tr *ngFor="let p of matchPlayers| slice:playersPerTeam; let i = index">
+            <td class="pr-1"><span>{{i + 1}}</span></td>
+            <td width="85%">{{p.nick}} </td>
             <td>
               <a href="#" (click)="unconfirmPlayer(p)">
                 <span class="material-icons pull-right">cancel</span>
@@ -82,31 +98,16 @@
         </table>
       </div>
     </div>
-    <div class="col-4">
-      <div class="card-header">
-        Team B
-      </div>
-      <div class="card-body">
-        <tr *ngFor="let p of matchPlayers| slice:playersPerTeam">
-          <td width="90%"> {{p.nick}} </td>
-          <td>
-            <a href="#" (click)="unconfirmPlayer(p)">
-              <span class="material-icons pull-right">cancel</span>
-            </a>
-          </td>
-        </tr>
-    </div>
-    </div>
   </div>
-</div> 
+  </div>
 
-<div class="modal-footer">
-  <button type="button" 
-  class="btn btn-primary"
-  (click)="btnConfirmNewMatchClick()">Empezar</button>
-  
-  <button type="button" 
-  class="btn btn-secondary"
-  (click)="activeModal.dismiss()" 
-  data-dismiss="modal">Cancelar</button>
-</div>
+  <div class="modal-footer">
+    <button type="button" 
+    class="btn btn-primary"
+    (click)="btnConfirmNewMatchClick()">Empezar</button>
+    
+    <button type="button" 
+    class="btn btn-secondary"
+    (click)="activeModal.dismiss()" 
+    data-dismiss="modal">Cancelar</button>
+  </div>

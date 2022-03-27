@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Injectable, Input, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { ChangeDetectorRef, Component, Injectable, Input, OnInit, Pipe, PipeTransform, SimpleChange } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DBService } from '../Model/DB.service';
 import { Match, PlayerEventPosition } from '../Model/Match';
@@ -16,14 +16,15 @@ import { FilterByNumberPipe } from '../Model/Helper';
 })
 export class MatchComponent implements OnInit {
 
+
   events: Event[] = [];
   players: Player[] = [];
 
-  Match: Match;
   StatEntries: PlayerEventPosition[] = [];
   lastEnteredIsPlayer: boolean = false;
-  PlayEventsByValue: Map<number, Event[]> = new Map<number, Event[]>();
-  
+  PlayEventsByValue: Map<string, Event[]> = new Map<string, Event[]>();
+  @Input() Match: Match;
+
   constructor(
     private modalService: NgbModal,
     private DB: DBService,
@@ -31,35 +32,43 @@ export class MatchComponent implements OnInit {
    }
   
   ngOnInit() {
-    this.Match = this.matchSvc.getCurrent();
-    if(this.Match != null){
-      this.events = this.DB.getEvents(this.Match.sportId);
-
-      //TO TEST SIZES
-      for(let i=0; i<4;i++)
-        this.events.push(new Event(this.Match.sportId, 'xxxxx' + i,'yyyy', 0))
-
-      for(let i=0; i<3;i++)
-        this.events.push(new Event(this.Match.sportId, 'xxxxx' + i,'yyyy', 1))
-
-      for(let i=0; i<6;i++)
-        this.events.push(new Event(this.Match.sportId, 'xxxxx' + i,'yyyy', -1))
-
-
-      this.events.sort((a,b) => a.value < b.value? 1: -1).forEach(e => {
-          if(! this.PlayEventsByValue.has(e.value))
-            this.PlayEventsByValue.set(e.value, new Array<Event>());
-          this.PlayEventsByValue.get(e.value).push(e);
-      });
-      this.players = this.Match.players;
-      
-      //TO TEST SIZES
-      for(let i=0; i<0;i++)
-        this.players.push(new Player(this.Match.tournamentId, 'xxxxx xxxxx'));
-
-    }
+    //this.Match = this.matchSvc.getCurrent();
+    this.initMatch();
   }
 
+
+  
+  // ngOnChanges(changes:SimpleChange){
+
+  //   //current value
+  //   this.Match =  changes.currentValue
+  //  }
+
+  @Input() set CurrentMatch(value: Match) {
+    this.Match = value;
+    this.initMatch();
+
+  }
+
+  initMatch(){
+    if(this.Match == null){
+      this.events = [];
+      this.players = []
+      return;
+    }
+      
+    this.events = this.DB.getEvents(this.Match.sportId);
+
+    this.events.sort((a,b) => a.value < b.value? 1: -1).forEach(e => {
+        if(! this.PlayEventsByValue.has(e.value))
+          this.PlayEventsByValue.set(e.value, new Array<Event>());
+        this.PlayEventsByValue.get(e.value).push(e);
+    });
+    this.players = this.Match.players;
+
+  }
+
+    
   clickPlayer(player:Player){
     if(this.StatEntries.length == 0 || this.StatEntries[this.StatEntries.length -1].event != null)
       this.StatEntries.push({player: player, event: null});
@@ -119,5 +128,24 @@ export class MatchComponent implements OnInit {
     console.log(((events.length - rest) / this.eventsPerRow) + (rest == 0? 0: 1));
     return ((events.length - rest) / this.eventsPerRow) + (rest == 0? 0: 1);
   }
+
+  calculateEventClass(eventType: string):string{
+    let result:string  = '';
+    if(eventType == "-1"){
+      result = 'btn-danger'
+    }else if (eventType == "0") {
+      result = 'btn-warning';
+    } else {
+      result = 'btn-primary'; 
+    }
+
+    if(this.PlayEventsByValue.get(eventType).length < 4)
+      result = result + ' p-4';
+    else  
+      result = result + ' p-3';
+
+    return result;
+  } 
+
 }
 
