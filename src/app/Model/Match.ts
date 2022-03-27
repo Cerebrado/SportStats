@@ -9,22 +9,21 @@ export class Match {
   readonly sportId: string;
   readonly tournamentId:string;
   readonly players: Player[];
-  private events: PlayerEventPosition[] = [];
+  
+  events: PlayerEventPosition[] = []; // TODO: SEE, methods not serializabel in the service.
 
-  constructor(sportId: string, tournamentId: string, players: Player[]){
+  constructor(sportId: string, tournamentId: string, players: Player[], events?:PlayerEventPosition[]){
     this.sportId = sportId;
     this.tournamentId = tournamentId;
     this.players = players;
+    this.events = events??[];
   }
 
-  getEvents():PlayerEventPosition[]{
-    return this.events;
-  }
-
-  setEvents(events: PlayerEventPosition[]){
-    this.events = events;
+  addEvents(events: PlayerEventPosition[]){
+    this.events = [...this.events,...events];
   }
 }
+
 
 export interface  PlayerEventPosition{
   player: Player

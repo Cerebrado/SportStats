@@ -52,7 +52,7 @@ export class AppComponent  implements OnInit {
   }
 
   btnCancelMatch(){
-    if(confirm('Va a cancelar el match actual con ' + this.match?.getEvents().length + ' eventos. Continua?')){
+    if(confirm('Va a cancelar el match actual con ' + this.match?.events.length + ' eventos. Continua?')){
       this.matchSvc.setNewMatch(null);
       this.setMenuOption(1);
     }

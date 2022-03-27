@@ -82,7 +82,7 @@
       No current match. Start a <a href="#" (click)="btnNewMatch()">new one</a> 
     </div>
 
-  <match [Match]="match" *ngIf="menuOption == 1 && match!=null"></match>
+  <match [CurrentMatch]="match" *ngIf="menuOption == 1 && match!=null"></match>
   <statistics *ngIf="menuOption == 2"></statistics>
   <settings *ngIf="menuOption == 3"></settings>
   <!-- <div echarts class="demo-chart" [options]="chartOption"></div>  -->

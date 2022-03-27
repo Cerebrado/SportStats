@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Injectable, Input, OnInit, Pipe, PipeTransform, SimpleChange } from '@angular/core';
+import { ChangeDetectionStrategy,Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DBService } from '../Model/DB.service';
 import { Match, PlayerEventPosition } from '../Model/Match';
@@ -13,17 +13,16 @@ import { FilterByNumberPipe } from '../Model/Helper';
   selector: 'match',
   templateUrl: './match.component.html',
   styleUrls: ['./match.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MatchComponent implements OnInit {
-
-
+export class MatchComponent  {
   events: Event[] = [];
   players: Player[] = [];
 
   StatEntries: PlayerEventPosition[] = [];
   lastEnteredIsPlayer: boolean = false;
   PlayEventsByValue: Map<string, Event[]> = new Map<string, Event[]>();
-  @Input() Match: Match;
+  Match: Match;
 
   constructor(
     private modalService: NgbModal,
@@ -31,23 +30,10 @@ export class MatchComponent implements OnInit {
     private matchSvc: MatchService) {
    }
   
-  ngOnInit() {
-    //this.Match = this.matchSvc.getCurrent();
-    this.initMatch();
-  }
-
-
   
-  // ngOnChanges(changes:SimpleChange){
-
-  //   //current value
-  //   this.Match =  changes.currentValue
-  //  }
-
   @Input() set CurrentMatch(value: Match) {
     this.Match = value;
     this.initMatch();
-
   }
 
   initMatch(){
@@ -92,7 +78,8 @@ export class MatchComponent implements OnInit {
   }
   
   btnConfirmClick(){
-    this.matchSvc.addEvents(this.StatEntries);
+    this.Match.addEvents(this.StatEntries);
+    this.matchSvc.saveCurrent();
     this.StatEntries = [];
   }
 

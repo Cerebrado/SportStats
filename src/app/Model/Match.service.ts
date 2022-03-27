@@ -22,7 +22,8 @@ export class MatchService {
   constructor() { 
     let storageData = localStorage.getItem(this.currentMatchTable);
     if(storageData != null) {
-      this._current = JSON.parse(storageData) as Match;
+      let tmpMatch = JSON.parse(storageData) as Match;
+      this._current = new Match(tmpMatch.sportId, tmpMatch.tournamentId, tmpMatch.players, tmpMatch.events);
     }
     // setTimeout(() => 
     // {
@@ -43,11 +44,6 @@ export class MatchService {
      return this._current;
    }
 
-  addEvents(events: PlayerEventPosition[]){
-    this._current.setEvents([...this._current.getEvents(),  ...events]);
-    this.saveCurrent();
-  }
-
   saveCurrent(){
     //this._subject.next(this._current)
     if(this._current == null)
@@ -58,6 +54,9 @@ export class MatchService {
   private setCurrentMatchAsHistory() {
     if(this._current == null)
       return;
+    if(this._current.events.length == 0)
+      return;
+    
     let matches: Match[] = this.getHistory(this._current.sportId);
     matches.push(this._current);
     localStorage.setItem(this.historyTable, JSON.stringify(matches));
