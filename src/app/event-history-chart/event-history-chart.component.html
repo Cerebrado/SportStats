@@ -1,1 +1,3 @@
-  <div echarts [options]="option" class="demo-chart"></div>
+  <div id="x" echarts [options]="option" (chartInit)="onChartInit($event)" class="demo-chart"></div>
+  {{JSON.stringify(instance)}}
+  

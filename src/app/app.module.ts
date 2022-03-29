@@ -18,6 +18,7 @@ import { MatchComponent } from './match/match.component';
 
  import { StatisticsComponent } from './statistics/statistics.component';
  import { EventHistoryChartComponent } from './event-history-chart/event-history-chart.component';
+import { StatPlayertimeTableComponent } from './stat-playertime-table/stat-playertime-table.component';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, CommonModule, NgbModule, 
@@ -25,7 +26,7 @@ import { MatchComponent } from './match/match.component';
     echarts: () => import('echarts')
   })
 ],
-  declarations: [					
+  declarations: [							
     AppComponent,
     FilterByNumberPipe,
     InputBoxComponent,
@@ -37,6 +38,7 @@ import { MatchComponent } from './match/match.component';
     MatchComponent,
     StatisticsComponent,
     EventHistoryChartComponent,
+    StatPlayertimeTableComponent
    ],
   bootstrap: [AppComponent],
   entryComponents:[

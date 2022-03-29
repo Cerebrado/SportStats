@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatchService } from '../Model/Match.service';
 import { DBService } from '../Model/DB.service';
-import { Match } from '../Model/Match';
+import { Match, PlayerEventPosition } from '../Model/Match';
 import { Sport } from '../Model/Sport';
 import { Tournament } from '../Model/Tournament';
 import { ForwardRefHandling } from '@angular/compiler';
@@ -17,54 +17,74 @@ import { ForwardRefHandling } from '@angular/compiler';
 
 export class StatisticsComponent implements OnInit {
   sports: Sport[];
-  selectedSport: Sport;
+  selectedSportId: string = '0';
 
   tournaments: Tournament[];
-  selectedTournament: Tournament;
+  selectedTournamentId: string = '0';
+
+  groupBy: number=19;
+  statType: string = 'byPlayer';
 
   matches: Match[]= [];
   
 
   //each square will have one Event, many matches (x-Axis), many players (series) with count (serie data). 
   //                                  Event       match       players count
-  EventByMatchesWithPlayersCount: Map<string, Map<string, Map<string, number>>> = new Map<string, Map<string, Map<string, number>>>();
+  EventByMatchesWithPlayersCount: Map<string, Map<string, Map<string, number>>>;
   
   constructor(private matchSvc: MatchService, private DB:DBService ) {  }
 
   ngOnInit() {
     this.sports= this.DB.getSports();
     if(this.sports.length > 0)
-      this.onSportSelected(this.sports[0]);
+      this.onSportChanged(this.sports[0].sportId);
   }
 
-  onSportSelected(sport: Sport){
-    if(sport == null)
-      return;
-    this.selectedSport = sport;
-    this.matches = this.matchSvc.getHistory(sport.sportId);
+  onSportChanged(sportId: string){
+    this.selectedSportId = sportId;
+    this.matches = this.matchSvc.getHistory(sportId);
+    let cm = this.matchSvc.getCurrent(); 
+    if(cm != null)
+      this.matches.push(cm);
 
-    this.tournaments = this.DB.getTournaments(this.selectedSport.sportId);
+    this.tournaments = this.DB.getTournaments(sportId);
     if(this.tournaments.length > 0) {
-      this.onTournamentSelected(this.tournaments[0]);
+      this.onTournamentChanged(this.tournaments[0].tournamentId);
     } else{
-      this.onTournamentSelected(null);
+      this.onTournamentChanged('0');
     }
   }  
 
-  onTournamentSelected(tournament : Tournament | null){
-    this.selectedTournament = tournament;
+  onTournamentChanged(tournamentId : string){
+    this.selectedTournamentId = tournamentId;
     this.buildStats();
   }
 
+  onGroupByChanged(cutDate: string){
+    this.groupBy = parseInt(cutDate);
+    this.buildStats();
+  }
+
+  onStatsTypeChanged(statType:string)
+  {
+    this.statType = statType;
+    this.buildStats();
+  }
+
+
   buildStats(){
-    var matches: Match[];
-    if(this.selectedTournament == null){
+    this.EventByMatchesWithPlayersCount = new Map<string, Map<string, Map<string, number>>>();
+
+    let matches: Match[];
+    if(this.selectedTournamentId == '0'){
       matches = this.matches;
     } else {
-      matches = this.matches.filter(x=>x.tournamentId == this.selectedTournament.tournamentId);
+      matches = this.matches.filter(x=>x.tournamentId == this.selectedTournamentId);
     }
+    
+    let events = matches.map(x=> new GameAndEvents(x.date.substring(0,this.groupBy), x.events));
 
-    matches.forEach(match=>{
+    events.forEach(match=>{
       match.events.forEach( playerEvent => {
         if(!this.EventByMatchesWithPlayersCount.has(playerEvent.event.short))
           this.EventByMatchesWithPlayersCount.set(playerEvent.event.short, new Map<string, Map<string, number>>());
@@ -77,5 +97,15 @@ export class StatisticsComponent implements OnInit {
         );
       })
     })
+  }
+}
+
+export class GameAndEvents{
+  date: string;
+  events: PlayerEventPosition [];
+
+  constructor(date:string, events:PlayerEventPosition []){
+    this.date = date;
+    this.events = events;
   }
 }
