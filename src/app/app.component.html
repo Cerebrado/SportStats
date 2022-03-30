@@ -57,7 +57,15 @@
         >
          <span class="material-icons">settings</span>
       </button>
-  
+      <label 
+        class="btn btn-outline-success ml-3"
+        (click)="toggleFullScreen()"
+        >
+         <span class="material-icons">fullscreen</span>
+      </label>
+
+      
+
       <!-- <button
         class="btn btn-outline-success ml-3"
         type="button"
@@ -75,12 +83,12 @@
       </button> -->
     </form>
   </nav>
-    <div *ngIf="match == null">
-      <br>
-      <br>
-      <br>
-      No current match. Start a <a href="#" (click)="btnNewMatch()">new one</a> 
-    </div>
+  <div *ngIf="match == null && menuOption == 1">
+    <br>
+    <br>
+    <br>
+    No current match. Start a <a href="#" (click)="btnNewMatch()">new one</a> 
+  </div>
 
   <match [CurrentMatch]="match" *ngIf="menuOption == 1 && match!=null"></match>
   <statistics *ngIf="menuOption == 2"></statistics>

@@ -24,7 +24,7 @@ import { timestamp } from "rxjs";
 })
 export class AppComponent  implements OnInit {
   //User : gapi.auth2.GoogleUser;
-  menuOption: number = 2
+  menuOption: number = 1
   match: Match | null;
   
   constructor(private modalService: NgbModal, private matchSvc: MatchService){}
@@ -85,21 +85,20 @@ export class AppComponent  implements OnInit {
   //   if(confirm('You are going to cancel this match. Confirm?'))
   //     this.matchService.cancel();
   // }
-  
-  // chartOption: EChartsOption = {
-  //   xAxis: {
-  //     type: 'category',
-  //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  //   },
-  //   yAxis: {
-  //     type: 'value',
-  //   },
-  //   series: [
-  //     {
-  //       data: [820, 932, 901, 934, 1290, 1330, 1320],
-  //       type: 'line',
-  //     },
-  //   ],
-  //};
+
+  isfullscreenActive: boolean = false;
+  toggleFullScreen() {
+    this.isfullscreenActive = ! this.isfullscreenActive;
+    let elem: HTMLElement =  document.documentElement;
+    if (!document.fullscreenElement) {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  }
 
 }
