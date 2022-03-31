@@ -4,12 +4,17 @@ import { Tournament } from "./Tournament";
 import { Event } from "./Event";
 import { Player } from "./Player";
 import { Observable, Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DBService {
-
+  LSgetSports(): Sport[] {
+    throw new Error('Method not implemented.');
+  }
+    
   private sportsTable :string =  '3TStats.Sports';
   private eventsTable :string =  '3TStats.Events';
   private tournamentesTable :string =  '3TStats.Tournaments';
@@ -21,11 +26,15 @@ export class DBService {
   private _tournaments: Tournament[] = [];
   private _players: Player[] = [];
 
-  constructor() {
-      let storageData = localStorage.getItem(this.sportsTable);
+    
+  
+  constructor(private http: HttpClient) { 
+    let storageData = localStorage.getItem(this.sportsTable);
       if(storageData != null) {
           this._sports =  JSON.parse(storageData) as Sport[];
       }
+
+
 
       storageData = localStorage.getItem(this.eventsTable);
       if(storageData != null) {
@@ -43,18 +52,19 @@ export class DBService {
       }
   }
 
-  getSports(): Sport[]{
-      return this._sports;
+  getSports(): Observable<Sport[]>{
+      return this.http.get<Sport[]>(environment.apiUrl + 'api/DB/GetSports');
   }
 
-    getSport(sportId:string): Sport{
-        return this._sports.find(x=>x.sportId === sportId);
-    }
+  getSport(sportId:string): Sport{
+      return this._sports.find(x=>x.sportId === sportId);
+  }
 
-  addSport(sport: Sport): Sport[]{
-      this._sports.push(sport);
-      this.save(this.sportsTable);
-      return this._sports;
+  addSport(sport: Sport): Observable<Sport> {
+      return this.http.post<Sport>(environment.apiUrl + 'api/DB/AddSport',sport)
+    //   this._sports.push(sport);
+    //   this.save(this.sportsTable);
+    //   return this._sports;
   }
 
   removeSport(sport: Sport) : Sport[]{

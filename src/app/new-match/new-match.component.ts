@@ -26,7 +26,7 @@ export class NewMatchComponent {
   constructor(private modalService: NgbModal,public activeModal: NgbActiveModal, private DB: DBService) { }
 
   ngOnInit() {
-    this.sports = this.DB.getSports();
+    this.sports = this.DB.LSgetSports();
     if(this.sports.length > 0)
       this.selectSport(this.sports[0]);
   }

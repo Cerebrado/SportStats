@@ -35,9 +35,16 @@ export class StatisticsComponent implements OnInit {
   constructor(private matchSvc: MatchService, private DB:DBService ) {  }
 
   ngOnInit() {
-    this.sports= this.DB.getSports();
-    if(this.sports.length > 0)
-      this.onSportChanged(this.sports[0].sportId);
+    this.DB.getSports().subscribe({
+      next: (result) => {this.sports = result
+        if(this.sports.length > 0)
+          this.onSportChanged(this.sports[0].sportId);
+      },
+      error: (error) => {
+        alert('Cannot get Sports, check console'); 
+        console.log(error);
+      }
+    });
   }
 
   onSportChanged(sportId: string){

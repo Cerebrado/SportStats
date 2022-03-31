@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { HttpClientModule } from '@angular/common/http'
 
 import { AppComponent } from './app.component';
 import { FilterByNumberPipe } from './Model/Helper';
@@ -21,7 +22,7 @@ import { MatchComponent } from './match/match.component';
 import { StatPlayertimeTableComponent } from './stat-playertime-table/stat-playertime-table.component';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, CommonModule, NgbModule, 
+  imports: [BrowserModule, FormsModule, CommonModule, NgbModule, HttpClientModule,  
     NgxEchartsModule.forRoot({
     echarts: () => import('echarts')
   })

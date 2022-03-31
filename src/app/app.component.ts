@@ -4,15 +4,10 @@ import { MatchService } from "./Model/Match.service";
 import { Match } from './Model/Match';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NewMatchComponent } from "./new-match/new-match.component";
-import { renderFlagCheckIfStmt } from "@angular/compiler/src/render3/view/template";
-import { timestamp } from "rxjs";
-// import { ChangeDetectorRef, Component, OnInit} from '@angular/core';
-
 // import { GoogleSigninService } from 'src/app/Model/google-signin.service';
+import { DBService } from './Model/DB.service';
 
-// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// import { NewMatchComponent } from './new-match/new-match.component';
-// import { EChartsOption } from 'echarts/types/dist/echarts';
+
 
 
 
@@ -27,7 +22,7 @@ export class AppComponent  implements OnInit {
   menuOption: number = 1
   match: Match | null;
   
-  constructor(private modalService: NgbModal, private matchSvc: MatchService){}
+  constructor(private modalService: NgbModal, private matchSvc: MatchService, private DB: DBService){}
   
   ngOnInit() {
     // this.SignIn();

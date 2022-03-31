@@ -31,9 +31,18 @@ export class SettingsComponent implements OnInit {
   constructor(private modalService: NgbModal, private DB: DBService) { }
 
   ngOnInit() {
-    this.sports = this.DB.getSports();
-    if(this.sports.length > 0)
-      this.selectSport(this.sports[0]);
+    this.DB.getSports().subscribe({
+      next: (result) => {this.sports = result
+        if(this.sports.length > 0)
+        this.selectSport(this.sports[0]);
+      },
+      error: (error) => {
+        alert('Cannot get Sports, check console'); 
+        console.log(error);
+      }
+    });
+
+    //this.sports = this.DB.getSports();
   }
 
 
@@ -48,7 +57,7 @@ export class SettingsComponent implements OnInit {
         this.selectTournament(null);
       }
     } else {
-      this.events = [];
+      this.events = []; 
       this.tournaments = [];
     }
   }
@@ -66,9 +75,16 @@ export class SettingsComponent implements OnInit {
   addSport(){
     const modal = this.modalService.open(NewSportComponent);
     modal.result
-      .then((result:Sport) => {
-        this.sports = this.DB.addSport(result);
-        this.selectSport(result);
+      .then((sport:Sport) => {
+        this.DB.addSport(sport).subscribe({
+          next: (sport) => {
+            this.sports.push(sport);
+            this.selectSport(sport);
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
       }).catch(
         (reason: any) => { if(reason != 0) console.log(reason)}
       );

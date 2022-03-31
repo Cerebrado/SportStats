@@ -1,7 +1,7 @@
 import { Helper } from "./Helper";
 
 export class Sport {
-    readonly sportId: string = new Helper().getGuid();
+    sportId: string;
     readonly name: string;
     
    constructor(name: string) {
