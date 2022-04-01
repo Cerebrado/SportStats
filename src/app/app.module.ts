@@ -18,8 +18,8 @@ import { NewMatchComponent } from './new-match/new-match.component';
 import { MatchComponent } from './match/match.component';
 
  import { StatisticsComponent } from './statistics/statistics.component';
- import { EventHistoryChartComponent } from './event-history-chart/event-history-chart.component';
-import { StatPlayertimeTableComponent } from './stat-playertime-table/stat-playertime-table.component';
+ import { StatEventChartComponent } from './stat-event-chart/stat-event-chart';
+//import { StatPlayertimeTableComponent } from './stat-match-table/stat-playertime-table.component';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, CommonModule, NgbModule, HttpClientModule,  
@@ -38,8 +38,8 @@ import { StatPlayertimeTableComponent } from './stat-playertime-table/stat-playe
     NewMatchComponent,
     MatchComponent,
     StatisticsComponent,
-    EventHistoryChartComponent,
-    StatPlayertimeTableComponent
+    StatEventChartComponent,
+    //StatPlayertimeTableComponent
    ],
   bootstrap: [AppComponent],
   entryComponents:[

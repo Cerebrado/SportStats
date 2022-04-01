@@ -2,10 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import * as echarts from 'echarts/types/dist/echarts';
 import { EChartsOption, SeriesOption } from 'echarts/types/dist/echarts';
 @Component({
-  selector: 'event-history-chart',
-  templateUrl: './event-history-chart.component.html',
+  selector: 'stat-event-chart',
+  templateUrl: './stat-event-chart.component.html',
 })
-export class EventHistoryChartComponent implements OnInit {
+export class StatEventChartComponent implements OnInit {
   JSON = JSON;
   @Input() EventName:string = '';
   @Input() MatchesWithPlayersCount: Map<string, Map<string, number>> = new Map<string, Map<string, number>>();

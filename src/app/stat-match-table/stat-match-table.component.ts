@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'stat-playertime-table',
-  templateUrl: './stat-playertime-table.component.html',
+  templateUrl: './stat-match-table.component.html',
 })
-export class StatPlayertimeTableComponent implements OnInit {
+export class StatMatchTableComponent implements OnInit {
 
   constructor() { }
 
